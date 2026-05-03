@@ -78,7 +78,7 @@ export default function Home() {
           </div>
           <a
             className="shrink-0 rounded-md bg-[#17211f] px-4 py-3 text-sm font-bold text-white hover:bg-[#0d5b57] sm:px-5"
-            href="#contact"
+            href="#flights"
           >
             Plan My Trip
           </a>
@@ -302,26 +302,99 @@ export default function Home() {
         </div>
       </section>
 
-      <footer id="contact" className="bg-white px-4 py-14 sm:px-8 sm:py-16">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_1fr] lg:items-end">
-          <div>
-            <p className="mb-4 text-sm font-black uppercase tracking-[0.16em] text-[#e25d3f]">
-              Get your itinerary
-            </p>
-            <h2 className="text-3xl font-black leading-tight sm:text-5xl">
-              Tell us where you want to go. We will make it practical.
-            </h2>
+      <footer id="contact" className="bg-[#f5f1e8] px-4 py-8 sm:px-8 sm:py-10">
+        <div className="mx-auto max-w-7xl overflow-hidden rounded-lg bg-[#17211f] text-white shadow-2xl shadow-[#17211f]/15">
+          <div className="grid gap-8 border-b border-white/10 p-6 sm:p-8 lg:grid-cols-[1.2fr_0.8fr] lg:p-10">
+            <div>
+              <p className="mb-4 text-sm font-black uppercase tracking-[0.16em] text-[#f4c35d]">
+                Get your itinerary
+              </p>
+              <h2 className="max-w-3xl text-3xl font-black leading-tight sm:text-5xl">
+                Tell us the destination, dates, and budget. We will shape the
+                route.
+              </h2>
+              <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg sm:leading-8">
+                Share your travel idea and we will respond with practical next
+                steps for flights, hotels, transfers, and sightseeing.
+              </p>
+            </div>
+            <div className="rounded-lg bg-white p-5 text-[#17211f] sm:p-6 lg:self-end">
+              <p className="text-sm font-black uppercase tracking-[0.14em] text-[#e25d3f]">
+                Quick contact
+              </p>
+              <a
+                className="mt-4 block break-words text-2xl font-black text-[#0d5b57] hover:text-[#e25d3f]"
+                href="mailto:hello@faithtourtravel.com"
+              >
+                hello@faithtourtravel.com
+              </a>
+              <a
+                className="mt-5 inline-block rounded-md bg-[#e25d3f] px-5 py-3 font-black text-white hover:bg-[#c94d34]"
+                href="#flights"
+              >
+                Search Flights
+              </a>
+            </div>
           </div>
-          <div className="lg:justify-self-end">
-            <a
-              className="inline-block max-w-full break-words rounded-md bg-[#0d5b57] px-5 py-4 font-black text-white hover:bg-[#17211f] sm:px-7"
-              href="mailto:hello@faithtourtravel.com"
-            >
-              hello@faithtourtravel.com
-            </a>
-            <p className="mt-6 text-[#56635f]">
-              Copyright 2026 Faith Tour And Travel. All rights reserved.
-            </p>
+
+          <div className="grid gap-8 p-6 sm:grid-cols-2 sm:p-8 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:p-10">
+            <div>
+              <h3 className="text-2xl font-black text-white">
+                Faith Tour
+                <span className="text-[#e25d3f]"> + Travel</span>
+              </h3>
+              <p className="mt-4 max-w-sm leading-7 text-white/68">
+                Personalized tour planning for families, groups, and business
+                travelers who want clear guidance before they book.
+              </p>
+            </div>
+
+            {[
+              {
+                title: "Explore",
+                links: [
+                  { label: "Destinations", href: "#destinations" },
+                  { label: "Packages", href: "#packages" },
+                  { label: "Services", href: "#services" },
+                ],
+              },
+              {
+                title: "Support",
+                links: [
+                  { label: "Flight Search", href: "#flights" },
+                  { label: "Custom Trips", href: "#contact" },
+                  { label: "Visa Guidance", href: "#services" },
+                ],
+              },
+              {
+                title: "Popular",
+                links: [
+                  { label: "Dubai", href: "#packages" },
+                  { label: "Bali", href: "#destinations" },
+                  { label: "Thailand", href: "#destinations" },
+                ],
+              },
+            ].map((group) => (
+              <div key={group.title}>
+                <h3 className="font-black uppercase tracking-[0.14em] text-[#f4c35d]">
+                  {group.title}
+                </h3>
+                <ul className="mt-5 space-y-3 text-white/70">
+                  {group.links.map((link) => (
+                    <li key={link.label}>
+                      <a className="hover:text-white" href={link.href}>
+                        {link.label}
+                      </a>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            ))}
+          </div>
+
+          <div className="flex flex-col gap-4 border-t border-white/10 px-6 py-5 text-sm text-white/56 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
+            <p>Copyright 2026 Faith Tour And Travel. All rights reserved.</p>
+            <p>Built for reliable holiday planning from inquiry to return.</p>
           </div>
         </div>
       </footer>
