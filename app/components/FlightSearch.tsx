@@ -68,27 +68,27 @@ export default function FlightSearch() {
   }
 
   return (
-    <section id="flights" className="bg-[#0d5b57] px-5 py-16 text-white sm:px-8">
-      <div className="mx-auto grid max-w-7xl gap-9 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
+    <section id="flights" className="bg-[#0d5b57] px-4 py-10 text-white sm:px-8 sm:py-16">
+      <div className="mx-auto grid max-w-7xl gap-6 sm:gap-9 lg:grid-cols-[0.78fr_1.22fr] lg:items-start">
         <div>
-          <p className="mb-4 text-sm font-black uppercase tracking-[0.16em] text-[#f4c35d]">
+          <p className="mb-3 text-xs font-black uppercase tracking-[0.16em] text-[#f4c35d] sm:mb-4 sm:text-sm">
             Live flight search
           </p>
-          <h2 className="text-4xl font-black leading-tight sm:text-5xl">
+          <h2 className="text-2xl font-black leading-tight sm:text-5xl">
             Check flight fares before we build the full plan.
           </h2>
-          <p className="mt-6 text-lg leading-8 text-white/80">
+          <p className="mt-4 max-w-2xl text-sm leading-6 text-white/80 sm:mt-6 sm:text-lg sm:leading-8">
             This connects through your Skyscanner partner key on the server.
             Until the key is added, the form will show a setup message.
           </p>
         </div>
 
-        <div className="rounded-lg bg-white p-5 text-[#17211f] shadow-xl shadow-black/10 sm:p-7">
-          <form className="grid gap-4 lg:grid-cols-6" onSubmit={handleSubmit}>
-            <label className="lg:col-span-1">
+        <div className="rounded-lg bg-white p-4 text-[#17211f] shadow-xl shadow-black/10 sm:p-7">
+          <form className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6" onSubmit={handleSubmit}>
+            <label className="min-w-0 lg:col-span-1">
               <span className="mb-2 block text-sm font-black">From</span>
               <input
-                className="w-full rounded-md border border-[#17211f]/15 px-4 py-3 font-bold uppercase outline-none focus:border-[#0d5b57]"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 maxLength={3}
                 minLength={3}
                 onChange={(event) => setOrigin(event.target.value.toUpperCase())}
@@ -96,10 +96,10 @@ export default function FlightSearch() {
                 value={origin}
               />
             </label>
-            <label className="lg:col-span-1">
+            <label className="min-w-0 lg:col-span-1">
               <span className="mb-2 block text-sm font-black">To</span>
               <input
-                className="w-full rounded-md border border-[#17211f]/15 px-4 py-3 font-bold uppercase outline-none focus:border-[#0d5b57]"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 maxLength={3}
                 minLength={3}
                 onChange={(event) =>
@@ -109,29 +109,29 @@ export default function FlightSearch() {
                 value={destination}
               />
             </label>
-            <label className="lg:col-span-2">
+            <label className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-2">
               <span className="mb-2 block text-sm font-black">Depart</span>
               <input
-                className="w-full rounded-md border border-[#17211f]/15 px-4 py-3 font-bold outline-none focus:border-[#0d5b57]"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 onChange={(event) => setDepartureDate(event.target.value)}
                 required
                 type="date"
                 value={departureDate}
               />
             </label>
-            <label className="lg:col-span-2">
+            <label className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-2">
               <span className="mb-2 block text-sm font-black">Return</span>
               <input
-                className="w-full rounded-md border border-[#17211f]/15 px-4 py-3 font-bold outline-none focus:border-[#0d5b57]"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 onChange={(event) => setReturnDate(event.target.value)}
                 type="date"
                 value={returnDate}
               />
             </label>
-            <label className="lg:col-span-2">
+            <label className="min-w-0 lg:col-span-2">
               <span className="mb-2 block text-sm font-black">Travelers</span>
               <input
-                className="w-full rounded-md border border-[#17211f]/15 px-4 py-3 font-bold outline-none focus:border-[#0d5b57]"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 max={9}
                 min={1}
                 onChange={(event) => setAdults(Number(event.target.value))}
@@ -139,22 +139,27 @@ export default function FlightSearch() {
                 value={adults}
               />
             </label>
-            <label className="lg:col-span-2">
-              <span className="mb-2 block text-sm font-black">Cabin</span>
-              <select
-                className="w-full rounded-md border border-[#17211f]/15 px-4 py-3 font-bold outline-none focus:border-[#0d5b57]"
-                onChange={(event) => setCabinClass(event.target.value)}
-                value={cabinClass}
-              >
+            <fieldset className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-2">
+              <legend className="mb-2 block text-sm font-black">Cabin</legend>
+              <div className="grid gap-2 sm:grid-cols-3 sm:gap-0 sm:overflow-hidden sm:rounded-md sm:border sm:border-[#17211f]/15">
                 {cabinClasses.map((item) => (
-                  <option key={item.value} value={item.value}>
+                  <button
+                    className={`h-11 rounded-md border px-3 text-left text-sm font-black sm:h-14 sm:rounded-none sm:border-0 sm:px-2 sm:text-center sm:text-xs lg:text-sm ${
+                      cabinClass === item.value
+                        ? "border-[#0d5b57] bg-[#0d5b57] text-white"
+                        : "border-[#17211f]/15 bg-white text-[#42514d]"
+                    }`}
+                    key={item.value}
+                    onClick={() => setCabinClass(item.value)}
+                    type="button"
+                  >
                     {item.label}
-                  </option>
+                  </button>
                 ))}
-              </select>
-            </label>
+              </div>
+            </fieldset>
             <button
-              className="rounded-md bg-[#e25d3f] px-6 py-3 font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 lg:col-span-2 lg:self-end"
+              className="col-span-2 h-12 rounded-md bg-[#e25d3f] px-6 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:self-end"
               disabled={isLoading}
               type="submit"
             >
@@ -172,7 +177,7 @@ export default function FlightSearch() {
             <div className="mt-5 space-y-3">
               {results.map((result) => (
                 <div
-                  className="flex items-center justify-between gap-4 rounded-md border border-[#17211f]/10 p-4"
+                  className="flex flex-wrap items-center justify-between gap-4 rounded-md border border-[#17211f]/10 p-4"
                   key={result.id}
                 >
                   <div>

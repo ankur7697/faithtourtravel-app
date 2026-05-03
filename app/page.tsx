@@ -62,8 +62,8 @@ export default function Home() {
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-[#17211f]">
       <header className="sticky top-0 z-50 border-b border-[#17211f]/10 bg-[#f5f1e8]/95 backdrop-blur">
-        <nav className="mx-auto flex h-20 max-w-7xl items-center justify-between px-5 sm:px-8">
-          <a className="text-xl font-black tracking-tight text-[#0d5b57]" href="#">
+        <nav className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-8">
+          <a className="text-lg font-black tracking-tight text-[#0d5b57] sm:text-xl" href="#">
             Faith Tour
             <span className="text-[#e25d3f]"> + Travel</span>
           </a>
@@ -77,24 +77,35 @@ export default function Home() {
             <a href="#contact">Contact</a>
           </div>
           <a
-            className="rounded-md bg-[#17211f] px-5 py-3 text-sm font-bold text-white hover:bg-[#0d5b57]"
+            className="shrink-0 rounded-md bg-[#17211f] px-4 py-3 text-sm font-bold text-white hover:bg-[#0d5b57] sm:px-5"
             href="#contact"
           >
             Plan My Trip
           </a>
         </nav>
+        <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 pb-3 text-xs font-bold text-[#17211f]/70 sm:px-8 sm:text-sm lg:hidden">
+          {["Destinations", "Packages", "Services", "Contact"].map((item) => (
+            <a
+              className="shrink-0 rounded-md border border-[#17211f]/10 bg-white/55 px-3 py-2 sm:px-4"
+              href={`#${item.toLowerCase()}`}
+              key={item}
+            >
+              {item}
+            </a>
+          ))}
+        </div>
       </header>
 
-      <section className="px-5 pb-20 pt-10 sm:px-8 lg:pb-28">
-        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+      <section className="px-4 pb-16 pt-8 sm:px-8 sm:pb-20 sm:pt-10 lg:pb-28">
+        <div className="mx-auto grid max-w-7xl gap-8 sm:gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div className="max-w-2xl">
             <p className="mb-5 text-sm font-black uppercase tracking-[0.16em] text-[#e25d3f]">
               Tailor-made holidays from India
             </p>
-            <h1 className="text-5xl font-black leading-[1.02] tracking-tight text-[#17211f] sm:text-6xl lg:text-7xl">
+            <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-[#17211f] sm:text-6xl lg:text-7xl">
               Trips planned with care, not copied from a template.
             </h1>
-            <p className="mt-7 max-w-xl text-lg leading-8 text-[#42514d]">
+            <p className="mt-6 max-w-xl text-base leading-7 text-[#42514d] sm:mt-7 sm:text-lg sm:leading-8">
               We build practical itineraries around your dates, budget, travel
               style, and the people going with you.
             </p>
@@ -115,7 +126,7 @@ export default function Home() {
           </div>
 
           <div className="grid gap-4 sm:grid-cols-[0.78fr_1fr]">
-            <div className="relative min-h-[360px] overflow-hidden rounded-lg sm:min-h-[520px]">
+            <div className="relative min-h-[300px] overflow-hidden rounded-lg sm:min-h-[520px]">
               <Image
                 src={`${imageBase}/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1300&q=84`}
                 alt="Lake and mountain holiday destination"
@@ -126,7 +137,7 @@ export default function Home() {
               />
             </div>
             <div className="grid gap-4">
-              <div className="relative min-h-[220px] overflow-hidden rounded-lg">
+              <div className="relative min-h-[190px] overflow-hidden rounded-lg sm:min-h-[220px]">
                 <Image
                   src={`${imageBase}/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=900&q=84`}
                   alt="Traveler walking through old town"
@@ -135,9 +146,9 @@ export default function Home() {
                   className="object-cover"
                 />
               </div>
-              <div className="rounded-lg bg-[#0d5b57] p-7 text-white">
-                <p className="text-5xl font-black">120+</p>
-                <p className="mt-4 text-lg font-bold leading-7 text-white/88">
+              <div className="rounded-lg bg-[#0d5b57] p-6 text-white sm:p-7">
+                <p className="text-4xl font-black sm:text-5xl">120+</p>
+                <p className="mt-4 text-base font-bold leading-7 text-white/88 sm:text-lg">
                   itineraries arranged across Asia, Europe, and the Middle
                   East.
                 </p>
@@ -149,7 +160,7 @@ export default function Home() {
 
       <FlightSearch />
 
-      <section id="destinations" className="bg-white px-5 py-20 sm:px-8 lg:py-28">
+      <section id="destinations" className="bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <SectionHeading
             eyebrow="Where clients ask us to send them"
@@ -171,7 +182,7 @@ export default function Home() {
                     className="object-cover transition duration-500 group-hover:scale-105"
                   />
                 </div>
-                <div className="flex items-center justify-between gap-5 p-6">
+                <div className="flex items-center justify-between gap-4 p-5 sm:gap-5 sm:p-6">
                   <div>
                     <h3 className="text-2xl font-black text-[#17211f]">
                       {destination.name}
@@ -190,14 +201,14 @@ export default function Home() {
         </div>
       </section>
 
-      <section id="packages" className="px-5 py-20 sm:px-8 lg:py-28">
+      <section id="packages" className="px-4 py-16 sm:px-8 sm:py-20 lg:py-28">
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-end">
             <SectionHeading
               eyebrow="Curated package ideas"
               title="Start with a route, then we shape the details around you."
             />
-            <p className="text-lg leading-8 text-[#42514d]">
+            <p className="text-base leading-7 text-[#42514d] sm:text-lg sm:leading-8">
               Every package can be adjusted for hotel category, flights,
               transfers, food preference, sightseeing pace, and special
               occasions.
@@ -219,11 +230,11 @@ export default function Home() {
                     className="object-cover"
                   />
                 </div>
-                <div className="p-7">
+                <div className="p-5 sm:p-7">
                   <p className="text-sm font-black uppercase tracking-[0.14em] text-[#0d5b57]">
                     {item.place}
                   </p>
-                  <h3 className="mt-3 text-3xl font-black leading-tight">
+                  <h3 className="mt-3 text-2xl font-black leading-tight sm:text-3xl">
                     {item.title}
                   </h3>
                   <div className="mt-6 flex flex-wrap gap-3 text-sm font-bold text-[#42514d]">
@@ -238,7 +249,7 @@ export default function Home() {
                     </span>
                   </div>
                 </div>
-                <div className="flex items-center justify-between gap-5 border-t border-[#17211f]/10 p-7 lg:block lg:border-l lg:border-t-0">
+                <div className="flex flex-wrap items-center justify-between gap-5 border-t border-[#17211f]/10 p-5 sm:p-7 lg:block lg:border-l lg:border-t-0">
                   <div>
                     <p className="text-sm font-bold text-[#56635f]">From</p>
                     <p className="text-3xl font-black text-[#e25d3f]">
@@ -260,7 +271,7 @@ export default function Home() {
 
       <section id="services" className="bg-[#17211f] px-5 py-20 text-white sm:px-8 lg:py-28">
         <div className="mx-auto grid max-w-7xl gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
-          <div className="relative min-h-[420px] overflow-hidden rounded-lg">
+          <div className="relative min-h-[300px] overflow-hidden rounded-lg sm:min-h-[420px]">
             <Image
               src={`${imageBase}/photo-1513635269975-59663e0ac1ad?auto=format&fit=crop&w=1400&q=84`}
               alt="Bridge and city travel view"
@@ -273,7 +284,7 @@ export default function Home() {
             <p className="mb-5 text-sm font-black uppercase tracking-[0.16em] text-[#f4c35d]">
               What we handle
             </p>
-            <h2 className="text-4xl font-black leading-tight sm:text-5xl">
+            <h2 className="text-3xl font-black leading-tight sm:text-5xl">
               One point of contact for the moving parts of your trip.
             </h2>
             <div className="mt-10 grid gap-4 sm:grid-cols-2">
@@ -291,19 +302,19 @@ export default function Home() {
         </div>
       </section>
 
-      <footer id="contact" className="bg-white px-5 py-16 sm:px-8">
+      <footer id="contact" className="bg-white px-4 py-14 sm:px-8 sm:py-16">
         <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[1fr_1fr] lg:items-end">
           <div>
             <p className="mb-4 text-sm font-black uppercase tracking-[0.16em] text-[#e25d3f]">
               Get your itinerary
             </p>
-            <h2 className="text-4xl font-black leading-tight sm:text-5xl">
+            <h2 className="text-3xl font-black leading-tight sm:text-5xl">
               Tell us where you want to go. We will make it practical.
             </h2>
           </div>
           <div className="lg:justify-self-end">
             <a
-              className="inline-block rounded-md bg-[#0d5b57] px-7 py-4 font-black text-white hover:bg-[#17211f]"
+              className="inline-block max-w-full break-words rounded-md bg-[#0d5b57] px-5 py-4 font-black text-white hover:bg-[#17211f] sm:px-7"
               href="mailto:hello@faithtourtravel.com"
             >
               hello@faithtourtravel.com
@@ -330,7 +341,7 @@ function SectionHeading({
       <p className="mb-5 text-sm font-black uppercase tracking-[0.16em] text-[#e25d3f]">
         {eyebrow}
       </p>
-      <h2 className="text-4xl font-black leading-tight tracking-tight text-[#17211f] sm:text-5xl">
+      <h2 className="text-3xl font-black leading-tight tracking-tight text-[#17211f] sm:text-5xl">
         {title}
       </h2>
     </div>
