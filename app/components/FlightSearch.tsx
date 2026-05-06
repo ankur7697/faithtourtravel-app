@@ -140,34 +140,62 @@ export default function FlightSearch() {
           ) : null}
 
           {results.length ? (
-            <div className="mt-5 space-y-3">
+            <div className="mt-5 space-y-4">
               {results.map((result) => (
                 <div
-                  className="flex flex-wrap items-center justify-between gap-4 rounded-md border border-[#17211f]/10 p-4"
+                  className="overflow-hidden rounded-lg border border-[#17211f]/10 bg-[#fbfaf6] shadow-sm"
                   key={result.id}
                 >
-                  <div>
-                    <p className="text-sm font-bold text-[#56635f]">
-                      {result.airline}
-                    </p>
-                    <p className="text-2xl font-black text-[#0d5b57]">
-                      {result.flightCode}
-                    </p>
-                    <p className="mt-1 text-sm font-bold capitalize text-[#42514d]">
-                      {result.status}
-                    </p>
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#17211f]/10 bg-white px-4 py-3">
+                    <div className="min-w-0">
+                      <p className="truncate text-sm font-black text-[#17211f]">
+                        {result.airline}
+                      </p>
+                      <p className="mt-1 text-xs font-bold text-[#56635f]">
+                        {result.flightCode}
+                      </p>
+                    </div>
+                    <span className={`rounded-full px-3 py-1 text-xs font-black ${getStatusClass(result.status)}`}>
+                      {formatStatus(result.status)}
+                    </span>
                   </div>
-                  <div className="grid gap-2 text-sm font-bold text-[#42514d] sm:grid-cols-2">
-                    <p>
-                      {result.departure.iata ?? "DEP"}{" "}
-                      {formatTime(result.departure.scheduled)}
-                      {formatDelay(result.departure.delay)}
+
+                  <div className="grid gap-4 p-4 sm:grid-cols-[1fr_auto_1fr] sm:items-center">
+                    <AirportBlock
+                      airport={result.departure.airport}
+                      code={result.departure.iata ?? "DEP"}
+                      delay={result.departure.delay}
+                      label="Departure"
+                      time={result.departure.scheduled}
+                    />
+
+                    <div className="hidden min-w-24 items-center justify-center sm:flex">
+                      <div className="h-px w-10 bg-[#17211f]/20" />
+                      <div className="grid h-9 w-9 place-items-center rounded-full bg-[#17211f] text-xs font-black text-white">
+                        To
+                      </div>
+                      <div className="h-px w-10 bg-[#17211f]/20" />
+                    </div>
+
+                    <AirportBlock
+                      airport={result.arrival.airport}
+                      code={result.arrival.iata ?? "ARR"}
+                      delay={result.arrival.delay}
+                      label="Arrival"
+                      time={result.arrival.scheduled}
+                    />
+                  </div>
+
+                  <div className="flex flex-wrap items-center justify-between gap-3 border-t border-[#17211f]/10 px-4 py-3">
+                    <p className="text-xs font-bold text-[#56635f]">
+                      Flight date: {result.flightDate ?? "Not listed"}
                     </p>
-                    <p>
-                      {result.arrival.iata ?? "ARR"}{" "}
-                      {formatTime(result.arrival.scheduled)}
-                      {formatDelay(result.arrival.delay)}
-                    </p>
+                    <a
+                      className="rounded-md bg-[#e25d3f] px-4 py-3 text-sm font-black text-white hover:bg-[#c94d34]"
+                      href={getFlightBookingMailto(result)}
+                    >
+                      Book this flight
+                    </a>
                   </div>
                 </div>
               ))}
@@ -176,6 +204,41 @@ export default function FlightSearch() {
         </div>
       </div>
     </section>
+  );
+}
+
+function AirportBlock({
+  airport,
+  code,
+  delay,
+  label,
+  time,
+}: {
+  airport?: string;
+  code: string;
+  delay?: number | null;
+  label: string;
+  time?: string | null;
+}) {
+  return (
+    <div className="min-w-0">
+      <p className="text-xs font-black uppercase tracking-[0.14em] text-[#e25d3f]">
+        {label}
+      </p>
+      <div className="mt-2 flex items-baseline gap-3">
+        <p className="text-3xl font-black text-[#0d5b57]">{code}</p>
+        <p className="text-base font-black text-[#17211f]">
+          {formatTime(time)}
+          {formatDelay(delay)}
+        </p>
+      </div>
+      <p className="mt-2 line-clamp-2 text-sm font-bold leading-6 text-[#56635f]">
+        {airport ?? "Airport not listed"}
+      </p>
+      <p className="mt-1 text-xs font-bold text-[#42514d]">
+        {formatDate(time)}
+      </p>
+    </div>
   );
 }
 
@@ -192,8 +255,84 @@ function formatTime(value?: string | null) {
   }).format(new Date(value));
 }
 
+function formatDate(value?: string | null) {
+  if (!value) {
+    return "Date TBA";
+  }
+
+  return new Intl.DateTimeFormat("en-IN", {
+    weekday: "short",
+    day: "2-digit",
+    month: "short",
+    year: "numeric",
+  }).format(new Date(value));
+}
+
 function formatDelay(value?: number | null) {
   return typeof value === "number" && value > 0 ? ` +${value}m` : "";
+}
+
+function getFlightBookingMailto(flight: FlightResult) {
+  const subject = encodeURIComponent(`Flight booking request ${flight.flightCode}`);
+  const body = encodeURIComponent(
+    [
+      "Hi FaithTourTravel,",
+      "",
+      "I want to book this flight. Please share fare and payment details.",
+      "",
+      `Flight: ${flight.flightCode}`,
+      `Airline: ${flight.airline}`,
+      `Status: ${formatStatus(flight.status)}`,
+      `Date: ${flight.flightDate ?? "Not listed"}`,
+      `From: ${flight.departure.iata ?? "DEP"} ${formatTime(flight.departure.scheduled)}`,
+      `To: ${flight.arrival.iata ?? "ARR"} ${formatTime(flight.arrival.scheduled)}`,
+      "",
+      "Passenger details:",
+      "Name:",
+      "Phone:",
+      "Travelers:",
+    ].join("\n"),
+  );
+
+  return `mailto:info@faithtourtravel.com?subject=${subject}&body=${body}`;
+}
+
+function formatStatus(value: string) {
+  const normalized = value.toLowerCase();
+
+  const labels: Record<string, string> = {
+    active: "In flight",
+    scheduled: "Scheduled",
+    landed: "Landed",
+    cancelled: "Cancelled",
+    incident: "Incident",
+    diverted: "Diverted",
+    unknown: "Status unavailable",
+  };
+
+  return labels[normalized] ?? "Status unavailable";
+}
+
+function getStatusClass(value: string) {
+  const normalized = value.toLowerCase();
+
+  if (normalized === "active") {
+    return "bg-[#0d5b57]/10 text-[#0d5b57]";
+  }
+
+  if (normalized === "scheduled") {
+    return "bg-[#f4c35d]/25 text-[#715010]";
+  }
+
+  if (normalized === "landed") {
+    return "bg-[#17211f]/10 text-[#17211f]";
+  }
+
+  if (normalized === "cancelled" || normalized === "incident") {
+    return "bg-[#e25d3f]/12 text-[#b43d27]";
+  }
+
+  return "bg-[#56635f]/12 text-[#42514d]";
 }
 
 function getEmptyMessage(selectedDate: string, availableDates?: string[]) {

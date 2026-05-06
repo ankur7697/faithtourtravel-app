@@ -2,7 +2,7 @@ import type { Metadata } from "next";
 import "./globals.css";
 
 export const metadata: Metadata = {
-  title: "Faith Tour And Travel",
+  title: "FaithTourTravel",
   description:
     "Custom travel packages, curated destinations, and reliable tour planning.",
 };

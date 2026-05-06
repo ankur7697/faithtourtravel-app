@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Cancellation Policy | Faith Tour And Travel",
+  title: "Cancellation Policy | FaithTourTravel",
   description:
-    "Cancellation policy for Faith Tour And Travel bookings, itinerary changes, no-shows, supplier penalties, and travel credits.",
+    "Cancellation policy for FaithTourTravel bookings, itinerary changes, no-shows, supplier penalties, and travel credits.",
 };
 
 const sections = [
@@ -18,7 +18,7 @@ const sections = [
   {
     title: "Cancellation Charges",
     body: [
-      "Cancellation charges may include airline penalties, hotel penalties, tour operator penalties, transfer charges, visa or document fees, payment processor fees, taxes, currency conversion differences, and Faith Tour And Travel service fees.",
+      "Cancellation charges may include airline penalties, hotel penalties, tour operator penalties, transfer charges, visa or document fees, payment processor fees, taxes, currency conversion differences, and FaithTourTravel service fees.",
       "Some bookings are fully non-refundable after confirmation, especially discounted fares, promotional hotels, group bookings, cruise cabins, event tickets, peak season packages, and last-minute arrangements.",
     ],
   },
@@ -46,7 +46,7 @@ const sections = [
   {
     title: "How To Cancel",
     body: [
-      "Email hello@faithtourtravel.com with your booking name, invoice number, travel dates, service to cancel, and reason for cancellation. Urgent travel changes should also be communicated by phone or messaging if you have an assigned travel consultant.",
+      "Email info@faithtourtravel.com or call +1 (579) 900-5844 or +1 888-333-4391 with your booking name, invoice number, travel dates, service to cancel, and reason for cancellation. Written requests may also be sent to Faith Tour And Travel LLC, 16700 Marygold Ave Apt 18B, Fontana, CA 92335. Urgent travel changes should also be communicated by phone or messaging if you have an assigned travel consultant.",
       "We will review your booking terms and share the estimated cancellation outcome before proceeding where possible.",
     ],
   },
@@ -72,7 +72,7 @@ export default function CancellationPolicyPage() {
           <p className="mt-8 text-lg leading-8 text-[#42514d]">
             This Cancellation Policy explains how cancellations, changes,
             no-shows, supplier penalties, and travel credits are handled for
-            bookings arranged through Faith Tour And Travel.
+            bookings arranged through FaithTourTravel.
           </p>
         </div>
       </section>

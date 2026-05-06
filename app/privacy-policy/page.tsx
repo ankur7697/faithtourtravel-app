@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Privacy Policy | Faith Tour And Travel",
+  title: "Privacy Policy | FaithTourTravel",
   description:
-    "Privacy policy for Faith Tour And Travel covering inquiries, payments, travel documents, and customer communications.",
+    "Privacy policy for FaithTourTravel covering inquiries, payments, travel documents, and customer communications.",
 };
 
 const sections = [
@@ -23,9 +23,9 @@ const sections = [
     ],
   },
   {
-    title: "Payments And Stripe",
+    title: "Payments And Card Processing",
     body: [
-      "Payments may be processed through Stripe or another secure payment provider. We do not store full card numbers on our servers. Payment providers process card data according to their own security standards and privacy policies.",
+      "Payments may be processed through a secure payment provider, bank transfer, or another approved method. We do not store full card numbers on our servers. Payment providers process card data according to their own security standards and privacy policies.",
       "We may receive limited payment information such as payment status, transaction ID, billing name, amount, currency, and refund status for accounting and customer support.",
     ],
   },
@@ -54,13 +54,13 @@ const sections = [
     title: "Your Choices",
     body: [
       "You may request access, correction, or deletion of your personal information where legally permitted. Some records may need to be retained for accounting, legal, fraud prevention, or dispute resolution purposes.",
-      "To make a privacy request, contact us at hello@faithtourtravel.com.",
+      "To make a privacy request, contact us at info@faithtourtravel.com, +1 (579) 900-5844, or +1 888-333-4391.",
     ],
   },
   {
     title: "Contact",
     body: [
-      "For privacy questions, contact Faith Tour And Travel at hello@faithtourtravel.com. Please include enough detail for us to identify your request and respond properly.",
+      "For privacy questions, contact FaithTourTravel at info@faithtourtravel.com, +1 (579) 900-5844, +1 888-333-4391, or by mail at Faith Tour And Travel LLC, 16700 Marygold Ave Apt 18B, Fontana, CA 92335. Please include enough detail for us to identify your request and respond properly.",
     ],
   },
 ];
@@ -71,7 +71,7 @@ export default function PrivacyPolicyPage() {
       eyebrow="Legal"
       title="Privacy Policy"
       updated="Last updated: May 6, 2026"
-      intro="This Privacy Policy explains how Faith Tour And Travel collects, uses, shares, and protects information when you visit our website, request travel services, make payments, or communicate with us."
+      intro="This Privacy Policy explains how FaithTourTravel collects, uses, shares, and protects information when you visit our website, request travel services, make payments, or communicate with us."
       sections={sections}
     />
   );

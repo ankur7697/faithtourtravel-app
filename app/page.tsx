@@ -1,5 +1,8 @@
 import Image from "next/image";
+import Link from "next/link";
+import BrandLogo from "./components/BrandLogo";
 import FlightSearch from "./components/FlightSearch";
+import { packages } from "./data/packages";
 
 const imageBase = "https://images.unsplash.com";
 
@@ -21,33 +24,6 @@ const destinations = [
     mood: "Island hopping and night markets",
     image:
       `${imageBase}/photo-1504214208698-ea1916a2195a?auto=format&fit=crop&w=1000&q=82`,
-  },
-];
-
-const packages = [
-  {
-    place: "Dubai",
-    title: "Desert, Marina and City Lights",
-    days: "5 days",
-    price: "$749",
-    image:
-      `${imageBase}/photo-1512453979798-5ea266f8880c?auto=format&fit=crop&w=900&q=82`,
-  },
-  {
-    place: "Japan",
-    title: "Tokyo, Kyoto and Mount Fuji",
-    days: "8 days",
-    price: "$1,420",
-    image:
-      `${imageBase}/photo-1545569341-9eb8b30979d9?auto=format&fit=crop&w=900&q=82`,
-  },
-  {
-    place: "Indonesia",
-    title: "Bali Slow Travel Escape",
-    days: "7 days",
-    price: "$980",
-    image:
-      `${imageBase}/photo-1537953773345-d172ccf13cf1?auto=format&fit=crop&w=900&q=82`,
   },
 ];
 
@@ -92,9 +68,8 @@ export default function Home() {
     <main className="min-h-screen bg-[#f5f1e8] text-[#17211f]">
       <header className="sticky top-0 z-50 border-b border-[#17211f]/10 bg-[#f5f1e8]/95 backdrop-blur">
         <nav className="mx-auto flex min-h-20 max-w-7xl items-center justify-between gap-4 px-4 py-3 sm:px-8">
-          <a className="text-lg font-black tracking-tight text-[#0d5b57] sm:text-xl" href="#">
-            Faith Tour
-            <span className="text-[#e25d3f]"> + Travel</span>
+          <a aria-label="FaithTourTravel home" href="#">
+            <BrandLogo />
           </a>
           <div className="hidden items-center gap-8 text-sm font-bold text-[#17211f]/70 lg:flex">
             <a className="text-[#0d5b57]" href="#">
@@ -129,7 +104,7 @@ export default function Home() {
         <div className="mx-auto grid max-w-7xl gap-8 sm:gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
           <div className="max-w-2xl">
             <p className="mb-5 text-sm font-black uppercase tracking-[0.16em] text-[#e25d3f]">
-              Tailor-made holidays from India
+              Tailor-made holidays, planned around you
             </p>
             <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-[#17211f] sm:text-6xl lg:text-7xl">
               Trips planned with care, not copied from a template.
@@ -234,13 +209,13 @@ export default function Home() {
         <div className="mx-auto max-w-7xl">
           <div className="grid gap-8 lg:grid-cols-[0.8fr_1fr] lg:items-end">
             <SectionHeading
-              eyebrow="Curated package ideas"
-              title="Start with a route, then we shape the details around you."
+              eyebrow="Packages from the USA to the world"
+              title="Start from the USA, then travel anywhere with a plan built around you."
             />
             <p className="text-base leading-7 text-[#42514d] sm:text-lg sm:leading-8">
-              Every package can be adjusted for hotel category, flights,
-              transfers, food preference, sightseeing pace, and special
-              occasions.
+              Every package can be adjusted for departure city, destination,
+              hotel category, flights, transfers, food preference, sightseeing
+              pace, and special occasions.
             </p>
           </div>
 
@@ -285,12 +260,12 @@ export default function Home() {
                       {item.price}
                     </p>
                   </div>
-                  <a
+                  <Link
                     className="rounded-md bg-[#17211f] px-5 py-3 text-sm font-black text-white hover:bg-[#0d5b57] lg:mt-7 lg:inline-block"
-                    href="#contact"
+                    href={`/packages/${item.slug}`}
                   >
                     Enquire
-                  </a>
+                  </Link>
                 </div>
               </article>
             ))}
@@ -353,10 +328,25 @@ export default function Home() {
               </p>
               <a
                 className="mt-4 block break-words text-2xl font-black text-[#0d5b57] hover:text-[#e25d3f]"
-                href="mailto:hello@faithtourtravel.com"
+                href="mailto:info@faithtourtravel.com"
               >
-                hello@faithtourtravel.com
+                info@faithtourtravel.com
               </a>
+              <div className="mt-4 grid gap-2 text-base font-black text-[#0d5b57]">
+                <a className="hover:text-[#e25d3f]" href="tel:+15799005844">
+                  +1 (579) 900-5844
+                </a>
+                <a className="hover:text-[#e25d3f]" href="tel:+18883334391">
+                  +1 888-333-4391
+                </a>
+              </div>
+              <div className="mt-5 border-t border-[#17211f]/10 pt-5 text-sm font-bold leading-6 text-[#42514d]">
+                <p className="font-black text-[#17211f]">
+                  Faith Tour And Travel LLC
+                </p>
+                <p>16700 Marygold Ave Apt 18B</p>
+                <p>Fontana, CA 92335</p>
+              </div>
               <a
                 className="mt-5 inline-block rounded-md bg-[#e25d3f] px-5 py-3 font-black text-white hover:bg-[#c94d34]"
                 href="#flights"
@@ -368,10 +358,7 @@ export default function Home() {
 
           <div className="grid gap-8 p-6 sm:grid-cols-2 sm:p-8 lg:grid-cols-[1.3fr_1fr_1fr_1fr] lg:p-10">
             <div>
-              <h3 className="text-2xl font-black text-white">
-                Faith Tour
-                <span className="text-[#e25d3f]"> + Travel</span>
-              </h3>
+              <BrandLogo inverted />
               <p className="mt-4 max-w-sm leading-7 text-white/68">
                 Personalized tour planning for families, groups, and business
                 travelers who want clear guidance before they book.
@@ -397,7 +384,7 @@ export default function Home() {
           </div>
 
           <div className="flex flex-col gap-4 border-t border-white/10 px-6 py-5 text-sm text-white/56 sm:px-8 lg:flex-row lg:items-center lg:justify-between lg:px-10">
-            <p>Copyright 2026 Faith Tour And Travel. All rights reserved.</p>
+            <p>Copyright 2026 FaithTourTravel. All rights reserved.</p>
             <p>Built for reliable holiday planning from inquiry to return.</p>
           </div>
         </div>

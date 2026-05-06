@@ -2,9 +2,9 @@ import type { Metadata } from "next";
 import Link from "next/link";
 
 export const metadata: Metadata = {
-  title: "Refund Policy | Faith Tour And Travel",
+  title: "Refund Policy | FaithTourTravel",
   description:
-    "Refund policy for Faith Tour And Travel bookings, deposits, supplier charges, payment processing, and travel service fees.",
+    "Refund policy for FaithTourTravel bookings, deposits, supplier charges, payment processing, and travel service fees.",
 };
 
 const sections = [
@@ -37,16 +37,16 @@ const sections = [
     ],
   },
   {
-    title: "Stripe And Card Payments",
+    title: "Card And Online Payments",
     body: [
-      "If payment was made by card or through Stripe, refunds may be subject to Stripe, bank, card network, and currency conversion rules. Payment processing fees may not always be returned by processors.",
+      "If payment was made by card or through an online payment provider, refunds may be subject to bank, card network, payment processor, and currency conversion rules. Payment processing fees may not always be returned by processors.",
       "A successful refund from our side may still take additional time to appear on your statement depending on your bank or card issuer.",
     ],
   },
   {
     title: "How To Request A Refund",
     body: [
-      "Email hello@faithtourtravel.com with your booking name, invoice number, travel dates, destination, reason for refund request, and any supporting documents.",
+      "Email info@faithtourtravel.com or call +1 (579) 900-5844 or +1 888-333-4391 with your booking name, invoice number, travel dates, destination, reason for refund request, and any supporting documents. Written requests may also be sent to Faith Tour And Travel LLC, 16700 Marygold Ave Apt 18B, Fontana, CA 92335.",
       "We will review the booking, check supplier rules, and share the available refund or credit options where applicable.",
     ],
   },
@@ -72,7 +72,7 @@ export default function RefundPolicyPage() {
           <p className="mt-8 text-lg leading-8 text-[#42514d]">
             This Refund Policy explains how refunds are reviewed for travel
             planning, flights, hotels, tours, transfers, visa assistance, and
-            related services booked through Faith Tour And Travel.
+            related services booked through FaithTourTravel.
           </p>
         </div>
       </section>
