@@ -58,6 +58,35 @@ const services = [
   "Custom group itineraries",
 ];
 
+const mobileNavItems = ["Destinations", "Packages", "Services", "Contact"];
+
+const footerGroups = [
+  {
+    title: "Explore",
+    links: [
+      { label: "Destinations", href: "#destinations" },
+      { label: "Packages", href: "#packages" },
+      { label: "Services", href: "#services" },
+    ],
+  },
+  {
+    title: "Support",
+    links: [
+      { label: "Flight Search", href: "#flights" },
+      { label: "Custom Trips", href: "#contact" },
+      { label: "Visa Guidance", href: "#services" },
+    ],
+  },
+  {
+    title: "Policies",
+    links: [
+      { label: "Privacy Policy", href: "/privacy-policy" },
+      { label: "Refund Policy", href: "/refund-policy" },
+      { label: "Cancellation Policy", href: "/cancellation-policy" },
+    ],
+  },
+];
+
 export default function Home() {
   return (
     <main className="min-h-screen bg-[#f5f1e8] text-[#17211f]">
@@ -84,7 +113,7 @@ export default function Home() {
           </a>
         </nav>
         <div className="mx-auto flex max-w-7xl gap-2 overflow-x-auto px-4 pb-3 text-xs font-bold text-[#17211f]/70 sm:px-8 sm:text-sm lg:hidden">
-          {["Destinations", "Packages", "Services", "Contact"].map((item) => (
+          {mobileNavItems.map((item) => (
             <a
               className="shrink-0 rounded-md border border-[#17211f]/10 bg-white/55 px-3 py-2 sm:px-4"
               href={`#${item.toLowerCase()}`}
@@ -349,32 +378,7 @@ export default function Home() {
               </p>
             </div>
 
-            {[
-              {
-                title: "Explore",
-                links: [
-                  { label: "Destinations", href: "#destinations" },
-                  { label: "Packages", href: "#packages" },
-                  { label: "Services", href: "#services" },
-                ],
-              },
-              {
-                title: "Support",
-                links: [
-                  { label: "Flight Search", href: "#flights" },
-                  { label: "Custom Trips", href: "#contact" },
-                  { label: "Visa Guidance", href: "#services" },
-                ],
-              },
-              {
-                title: "Popular",
-                links: [
-                  { label: "Dubai", href: "#packages" },
-                  { label: "Bali", href: "#destinations" },
-                  { label: "Thailand", href: "#destinations" },
-                ],
-              },
-            ].map((group) => (
+            {footerGroups.map((group) => (
               <div key={group.title}>
                 <h3 className="font-black uppercase tracking-[0.14em] text-[#f4c35d]">
                   {group.title}

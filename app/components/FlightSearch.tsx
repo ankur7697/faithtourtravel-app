@@ -4,29 +4,38 @@ import { FormEvent, useState } from "react";
 
 type FlightResult = {
   id: string;
-  price: string;
-  deepLink?: string;
+  flightCode: string;
+  airline: string;
+  status: string;
+  flightDate?: string;
+  departure: {
+    airport?: string;
+    iata?: string;
+    terminal?: string | null;
+    gate?: string | null;
+    delay?: number | null;
+    scheduled?: string | null;
+  };
+  arrival: {
+    airport?: string;
+    iata?: string;
+    terminal?: string | null;
+    gate?: string | null;
+    delay?: number | null;
+    scheduled?: string | null;
+  };
 };
 
 type SearchResponse = {
   error?: string;
-  status?: string;
-  itineraries?: FlightResult[];
+  availableDates?: string[];
+  flights?: FlightResult[];
 };
-
-const cabinClasses = [
-  { label: "Economy", value: "CABIN_CLASS_ECONOMY" },
-  { label: "Premium", value: "CABIN_CLASS_PREMIUM_ECONOMY" },
-  { label: "Business", value: "CABIN_CLASS_BUSINESS" },
-];
 
 export default function FlightSearch() {
   const [origin, setOrigin] = useState("DEL");
   const [destination, setDestination] = useState("DXB");
   const [departureDate, setDepartureDate] = useState("");
-  const [returnDate, setReturnDate] = useState("");
-  const [adults, setAdults] = useState(1);
-  const [cabinClass, setCabinClass] = useState(cabinClasses[0].value);
   const [message, setMessage] = useState("");
   const [results, setResults] = useState<FlightResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,10 +52,7 @@ export default function FlightSearch() {
       body: JSON.stringify({
         origin,
         destination,
-        departureDate,
-        returnDate: returnDate || undefined,
-        adults,
-        cabinClass,
+        departureDate: departureDate || undefined,
       }),
     });
 
@@ -59,11 +65,11 @@ export default function FlightSearch() {
       return;
     }
 
-    setResults(data.itineraries ?? []);
+    setResults(data.flights ?? []);
     setMessage(
-      data.itineraries?.length
-        ? `Search ${data.status?.toLowerCase() ?? "completed"}`
-        : "Search completed, but no displayable fares were returned yet.",
+      data.flights?.length
+        ? "Flight status search completed."
+        : getEmptyMessage(departureDate, data.availableDates),
     );
   }
 
@@ -75,11 +81,11 @@ export default function FlightSearch() {
             Live flight search
           </p>
           <h2 className="text-2xl font-black leading-tight sm:text-5xl">
-            Check flight fares before we build the full plan.
+            Check flight status before we build the full plan.
           </h2>
           <p className="mt-4 max-w-2xl text-sm leading-6 text-white/80 sm:mt-6 sm:text-lg sm:leading-8">
-            This connects through your Skyscanner partner key on the server.
-            Until the key is added, the form will show a setup message.
+            This connects through your Aviationstack key on the server. Until
+            the key is added, the form will show a setup message.
           </p>
         </div>
 
@@ -114,52 +120,12 @@ export default function FlightSearch() {
               <input
                 className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 onChange={(event) => setDepartureDate(event.target.value)}
-                required
                 type="date"
                 value={departureDate}
               />
             </label>
-            <label className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-2">
-              <span className="mb-2 block text-sm font-black">Return</span>
-              <input
-                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
-                onChange={(event) => setReturnDate(event.target.value)}
-                type="date"
-                value={returnDate}
-              />
-            </label>
-            <label className="min-w-0 lg:col-span-2">
-              <span className="mb-2 block text-sm font-black">Travelers</span>
-              <input
-                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
-                max={9}
-                min={1}
-                onChange={(event) => setAdults(Number(event.target.value))}
-                type="number"
-                value={adults}
-              />
-            </label>
-            <fieldset className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-2">
-              <legend className="mb-2 block text-sm font-black">Cabin</legend>
-              <div className="grid gap-2 sm:grid-cols-3 sm:gap-0 sm:overflow-hidden sm:rounded-md sm:border sm:border-[#17211f]/15">
-                {cabinClasses.map((item) => (
-                  <button
-                    className={`h-11 rounded-md border px-3 text-left text-sm font-black sm:h-14 sm:rounded-none sm:border-0 sm:px-2 sm:text-center sm:text-xs lg:text-sm ${
-                      cabinClass === item.value
-                        ? "border-[#0d5b57] bg-[#0d5b57] text-white"
-                        : "border-[#17211f]/15 bg-white text-[#42514d]"
-                    }`}
-                    key={item.value}
-                    onClick={() => setCabinClass(item.value)}
-                    type="button"
-                  >
-                    {item.label}
-                  </button>
-                ))}
-              </div>
-            </fieldset>
             <button
-              className="col-span-2 h-12 rounded-md bg-[#e25d3f] px-6 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:self-end"
+              className="col-span-2 h-12 rounded-md bg-[#e25d3f] px-6 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:col-span-2 lg:self-end"
               disabled={isLoading}
               type="submit"
             >
@@ -181,21 +147,28 @@ export default function FlightSearch() {
                   key={result.id}
                 >
                   <div>
-                    <p className="text-sm font-bold text-[#56635f]">Fare</p>
+                    <p className="text-sm font-bold text-[#56635f]">
+                      {result.airline}
+                    </p>
                     <p className="text-2xl font-black text-[#0d5b57]">
-                      {result.price}
+                      {result.flightCode}
+                    </p>
+                    <p className="mt-1 text-sm font-bold capitalize text-[#42514d]">
+                      {result.status}
                     </p>
                   </div>
-                  {result.deepLink ? (
-                    <a
-                      className="rounded-md bg-[#17211f] px-4 py-3 text-sm font-black text-white"
-                      href={result.deepLink}
-                      rel="noreferrer"
-                      target="_blank"
-                    >
-                      Open
-                    </a>
-                  ) : null}
+                  <div className="grid gap-2 text-sm font-bold text-[#42514d] sm:grid-cols-2">
+                    <p>
+                      {result.departure.iata ?? "DEP"}{" "}
+                      {formatTime(result.departure.scheduled)}
+                      {formatDelay(result.departure.delay)}
+                    </p>
+                    <p>
+                      {result.arrival.iata ?? "ARR"}{" "}
+                      {formatTime(result.arrival.scheduled)}
+                      {formatDelay(result.arrival.delay)}
+                    </p>
+                  </div>
                 </div>
               ))}
             </div>
@@ -204,4 +177,33 @@ export default function FlightSearch() {
       </div>
     </section>
   );
+}
+
+function formatTime(value?: string | null) {
+  if (!value) {
+    return "time TBA";
+  }
+
+  return new Intl.DateTimeFormat("en-IN", {
+    hour: "2-digit",
+    minute: "2-digit",
+    day: "2-digit",
+    month: "short",
+  }).format(new Date(value));
+}
+
+function formatDelay(value?: number | null) {
+  return typeof value === "number" && value > 0 ? ` +${value}m` : "";
+}
+
+function getEmptyMessage(selectedDate: string, availableDates?: string[]) {
+  if (!selectedDate) {
+    return "Search completed, but no matching flights were returned.";
+  }
+
+  if (!availableDates?.length) {
+    return "No flights were returned for this route.";
+  }
+
+  return `No matching flights for ${selectedDate}. Aviationstack returned flights for ${availableDates.join(", ")}.`;
 }

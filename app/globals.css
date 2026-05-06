@@ -23,6 +23,16 @@ html {
   scroll-behavior: smooth;
 }
 
+[id] {
+  scroll-margin-top: 6rem;
+}
+
+@media (max-width: 1023px) {
+  [id] {
+    scroll-margin-top: 10.5rem;
+  }
+}
+
 a {
   transition:
     color 180ms ease,
