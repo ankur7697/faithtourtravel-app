@@ -30,17 +30,24 @@ const destinations = [
 const services = [
   "Flight and hotel booking",
   "Visa and travel guidance",
-  "Private transfers",
+  "Local transport",
   "Custom group itineraries",
 ];
 
-const mobileNavItems = ["Destinations", "Packages", "Services", "Contact"];
+const mobileNavItems = [
+  { label: "Destinations", href: "#destinations" },
+  { label: "About", href: "/about-us" },
+  { label: "Packages", href: "#packages" },
+  { label: "Services", href: "#services" },
+  { label: "Contact", href: "#contact" },
+];
 
 const footerGroups = [
   {
     title: "Explore",
     links: [
       { label: "Destinations", href: "#destinations" },
+      { label: "About Us", href: "/about-us" },
       { label: "Packages", href: "#packages" },
       { label: "Services", href: "#services" },
     ],
@@ -76,6 +83,7 @@ export default function Home() {
               Home
             </a>
             <a href="#destinations">Destinations</a>
+            <Link href="/about-us">About Us</Link>
             <a href="#packages">Packages</a>
             <a href="#services">Services</a>
             <a href="#contact">Contact</a>
@@ -91,28 +99,36 @@ export default function Home() {
           {mobileNavItems.map((item) => (
             <a
               className="shrink-0 rounded-md border border-[#17211f]/10 bg-white/55 px-3 py-2 sm:px-4"
-              href={`#${item.toLowerCase()}`}
-              key={item}
+              href={item.href}
+              key={item.label}
             >
-              {item}
+              {item.label}
             </a>
           ))}
         </div>
       </header>
 
       <section className="px-4 pb-16 pt-8 sm:px-8 sm:pb-20 sm:pt-10 lg:pb-28">
-        <div className="mx-auto grid max-w-7xl gap-8 sm:gap-10 lg:grid-cols-[0.92fr_1.08fr] lg:items-center">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.9fr_1.1fr] lg:items-center">
           <div className="max-w-2xl">
-            <p className="mb-5 text-sm font-black uppercase tracking-[0.16em] text-[#e25d3f]">
-              Tailor-made holidays, planned around you
+            <p className="mb-5 inline-flex rounded-full border border-[#0d5b57]/20 bg-white px-4 py-2 text-xs font-black uppercase tracking-[0.16em] text-[#0d5b57] sm:text-sm">
+              Travel Assistance + Booking Facilitation
             </p>
-            <h1 className="text-4xl font-black leading-[1.05] tracking-tight text-[#17211f] sm:text-6xl lg:text-7xl">
-              Trips planned with care, not copied from a template.
+            <h1 className="text-4xl font-black leading-[1.02] tracking-tight text-[#0d5b57] sm:text-6xl lg:text-7xl">
+              Global Travel Booking & Reservation Assistance
             </h1>
-            <p className="mt-6 max-w-xl text-base leading-7 text-[#42514d] sm:mt-7 sm:text-lg sm:leading-8">
-              We build practical itineraries around your dates, budget, travel
-              style, and the people going with you.
+            <p className="mt-6 max-w-xl text-base font-medium leading-7 text-[#4f5f5a] sm:mt-7 sm:text-lg sm:leading-8">
+              We help with flight options, hotel reservations, travel packages,
+              local transport, and itinerary coordination based on your trip
+              details.
             </p>
+            <div className="mt-7 flex flex-wrap gap-2 text-sm font-black text-[#0d5b57]">
+              {["Flights", "Hotels", "Packages", "Local Transport"].map((item) => (
+                <span className="rounded-md border border-[#0d5b57]/10 bg-white px-4 py-2 shadow-sm shadow-[#17211f]/5" key={item}>
+                  {item}
+                </span>
+              ))}
+            </div>
             <div className="mt-9 flex flex-col gap-3 sm:flex-row">
               <a
                 className="rounded-md bg-[#e25d3f] px-7 py-4 text-center font-black text-white hover:bg-[#c94d34]"
@@ -121,40 +137,68 @@ export default function Home() {
                 View Packages
               </a>
               <a
-                className="rounded-md border border-[#17211f]/25 px-7 py-4 text-center font-black text-[#17211f] hover:border-[#0d5b57] hover:text-[#0d5b57]"
+                className="rounded-md border border-[#0d5b57]/30 px-7 py-4 text-center font-black text-[#0d5b57] hover:border-[#e25d3f] hover:text-[#e25d3f]"
                 href="#destinations"
               >
                 Explore Places
               </a>
             </div>
+            <div className="mt-8 grid max-w-xl gap-3 border-t border-[#0d5b57]/15 pt-6 text-sm font-bold text-[#56635f] sm:grid-cols-3">
+              <p>
+                <span className="block text-2xl font-black text-[#0d5b57]">
+                  USA
+                </span>
+                departures supported
+              </p>
+              <p>
+                <span className="block text-2xl font-black text-[#0d5b57]">
+                  24h
+                </span>
+                quote follow-up
+              </p>
+              <p>
+                <span className="block text-2xl font-black text-[#0d5b57]">
+                  Global
+                </span>
+                reservations
+              </p>
+            </div>
           </div>
 
           <div className="grid gap-4 sm:grid-cols-[0.78fr_1fr]">
-            <div className="relative min-h-[300px] overflow-hidden rounded-lg sm:min-h-[520px]">
+            <div className="relative min-h-[320px] overflow-hidden rounded-lg shadow-2xl shadow-[#17211f]/12 sm:min-h-[540px]">
               <Image
-                src={`${imageBase}/photo-1500530855697-b586d89ba3ee?auto=format&fit=crop&w=1300&q=84`}
-                alt="Lake and mountain holiday destination"
+                src={`${imageBase}/photo-1507525428034-b723cf961d3e?auto=format&fit=crop&w=1300&q=86`}
+                alt="Premium beach travel destination"
                 fill
                 priority
                 sizes="(max-width: 1024px) 100vw, 42vw"
                 className="object-cover"
               />
+              <div className="absolute bottom-4 left-4 right-4 rounded-lg bg-white/92 p-4 text-[#17211f] shadow-lg backdrop-blur">
+                <p className="text-xs font-black uppercase tracking-[0.14em] text-[#e25d3f]">
+                  Reservation support
+                </p>
+                <p className="mt-2 text-lg font-black">
+                  Share route, dates, budget. We help coordinate the options.
+                </p>
+              </div>
             </div>
             <div className="grid gap-4">
               <div className="relative min-h-[190px] overflow-hidden rounded-lg sm:min-h-[220px]">
                 <Image
-                  src={`${imageBase}/photo-1526772662000-3f88f10405ff?auto=format&fit=crop&w=900&q=84`}
-                  alt="Traveler walking through old town"
+                  src={`${imageBase}/photo-1520250497591-112f2f40a3f4?auto=format&fit=crop&w=900&q=86`}
+                  alt="Hotel resort reservation"
                   fill
                   sizes="(max-width: 1024px) 100vw, 30vw"
                   className="object-cover"
                 />
               </div>
-              <div className="rounded-lg bg-[#0d5b57] p-6 text-white sm:p-7">
-                <p className="text-4xl font-black sm:text-5xl">120+</p>
+              <div className="rounded-lg bg-[#0d5b57] p-6 text-white shadow-xl shadow-[#0d5b57]/20 sm:p-7">
+                <p className="text-4xl font-black sm:text-5xl">4-step</p>
                 <p className="mt-4 text-base font-bold leading-7 text-white/88 sm:text-lg">
-                  itineraries arranged across Asia, Europe, and the Middle
-                  East.
+                  assistance for flights, stays, packages, and final booking
+                  coordination.
                 </p>
               </div>
             </div>
@@ -214,8 +258,8 @@ export default function Home() {
             />
             <p className="text-base leading-7 text-[#42514d] sm:text-lg sm:leading-8">
               Every package can be adjusted for departure city, destination,
-              hotel category, flights, transfers, food preference, sightseeing
-              pace, and special occasions.
+              hotel category, flights, local transport, food preference,
+              sightseeing pace, and special occasions.
             </p>
           </div>
 
@@ -246,7 +290,7 @@ export default function Home() {
                       {item.days}
                     </span>
                     <span className="rounded-md bg-[#f5f1e8] px-4 py-2">
-                      Hotels + transfers
+                      Hotels + local transport
                     </span>
                     <span className="rounded-md bg-[#f5f1e8] px-4 py-2">
                       Customizable
@@ -319,7 +363,7 @@ export default function Home() {
               </h2>
               <p className="mt-5 max-w-2xl text-base leading-7 text-white/72 sm:text-lg sm:leading-8">
                 Share your travel idea and we will respond with practical next
-                steps for flights, hotels, transfers, and sightseeing.
+                steps for flights, hotels, local transport, and sightseeing.
               </p>
             </div>
             <div className="rounded-lg bg-white p-5 text-[#17211f] sm:p-6 lg:self-end">

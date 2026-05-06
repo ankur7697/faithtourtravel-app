@@ -33,12 +33,20 @@ type SearchResponse = {
 };
 
 export default function FlightSearch() {
-  const [origin, setOrigin] = useState("DEL");
-  const [destination, setDestination] = useState("DXB");
+  const [origin, setOrigin] = useState("");
+  const [destination, setDestination] = useState("");
   const [departureDate, setDepartureDate] = useState("");
   const [message, setMessage] = useState("");
   const [results, setResults] = useState<FlightResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
+
+  function handleClear() {
+    setOrigin("");
+    setDestination("");
+    setDepartureDate("");
+    setMessage("");
+    setResults([]);
+  }
 
   async function handleSubmit(event: FormEvent<HTMLFormElement>) {
     event.preventDefault();
@@ -94,10 +102,11 @@ export default function FlightSearch() {
             <label className="min-w-0 lg:col-span-1">
               <span className="mb-2 block text-sm font-black">From</span>
               <input
-                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none placeholder:text-[#17211f]/25 focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 maxLength={3}
                 minLength={3}
                 onChange={(event) => setOrigin(event.target.value.toUpperCase())}
+                placeholder="JFK"
                 required
                 value={origin}
               />
@@ -105,12 +114,13 @@ export default function FlightSearch() {
             <label className="min-w-0 lg:col-span-1">
               <span className="mb-2 block text-sm font-black">To</span>
               <input
-                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none placeholder:text-[#17211f]/25 focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 maxLength={3}
                 minLength={3}
                 onChange={(event) =>
                   setDestination(event.target.value.toUpperCase())
                 }
+                placeholder="LHR"
                 required
                 value={destination}
               />
@@ -125,7 +135,7 @@ export default function FlightSearch() {
               />
             </label>
             <button
-              className="col-span-2 h-12 rounded-md bg-[#e25d3f] px-6 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:col-span-2 lg:self-end"
+              className="col-span-2 h-12 rounded-md bg-[#e25d3f] px-5 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:col-span-2 lg:self-end"
               disabled={isLoading}
               type="submit"
             >
@@ -134,9 +144,16 @@ export default function FlightSearch() {
           </form>
 
           {message ? (
-            <p className="mt-5 rounded-md bg-[#f5f1e8] px-4 py-3 text-sm font-bold text-[#42514d]">
-              {message}
-            </p>
+            <div className="mt-5 flex flex-wrap items-center justify-between gap-3 rounded-md bg-[#f5f1e8] px-4 py-3">
+              <p className="text-sm font-bold text-[#42514d]">{message}</p>
+              <button
+                className="rounded-md border border-[#17211f]/20 px-3 py-2 text-sm font-black text-[#17211f] hover:border-[#0d5b57] hover:text-[#0d5b57]"
+                onClick={handleClear}
+                type="button"
+              >
+                Clear
+              </button>
+            </div>
           ) : null}
 
           {results.length ? (
@@ -144,7 +161,7 @@ export default function FlightSearch() {
               {results.map((result) => (
                 <div
                   className="overflow-hidden rounded-lg border border-[#17211f]/10 bg-[#fbfaf6] shadow-sm"
-                  key={result.id}
+                  key={`flight-${result.id}`}
                 >
                   <div className="flex flex-wrap items-center justify-between gap-3 border-b border-[#17211f]/10 bg-white px-4 py-3">
                     <div className="min-w-0">
@@ -192,7 +209,7 @@ export default function FlightSearch() {
                     </p>
                     <a
                       className="rounded-md bg-[#e25d3f] px-4 py-3 text-sm font-black text-white hover:bg-[#c94d34]"
-                      href={getFlightBookingMailto(result)}
+                      href="tel:+18883334391"
                     >
                       Book this flight
                     </a>
@@ -270,31 +287,6 @@ function formatDate(value?: string | null) {
 
 function formatDelay(value?: number | null) {
   return typeof value === "number" && value > 0 ? ` +${value}m` : "";
-}
-
-function getFlightBookingMailto(flight: FlightResult) {
-  const subject = encodeURIComponent(`Flight booking request ${flight.flightCode}`);
-  const body = encodeURIComponent(
-    [
-      "Hi FaithTourTravel,",
-      "",
-      "I want to book this flight. Please share fare and payment details.",
-      "",
-      `Flight: ${flight.flightCode}`,
-      `Airline: ${flight.airline}`,
-      `Status: ${formatStatus(flight.status)}`,
-      `Date: ${flight.flightDate ?? "Not listed"}`,
-      `From: ${flight.departure.iata ?? "DEP"} ${formatTime(flight.departure.scheduled)}`,
-      `To: ${flight.arrival.iata ?? "ARR"} ${formatTime(flight.arrival.scheduled)}`,
-      "",
-      "Passenger details:",
-      "Name:",
-      "Phone:",
-      "Travelers:",
-    ].join("\n"),
-  );
-
-  return `mailto:info@faithtourtravel.com?subject=${subject}&body=${body}`;
 }
 
 function formatStatus(value: string) {
