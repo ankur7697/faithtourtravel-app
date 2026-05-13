@@ -2,6 +2,13 @@
 
 import { FormEvent, useState } from "react";
 
+type AirportOption = {
+  airport: string;
+  city: string;
+  code: string;
+  country: string;
+};
+
 type FlightResult = {
   id: string;
   flightCode: string;
@@ -32,10 +39,109 @@ type SearchResponse = {
   flights?: FlightResult[];
 };
 
+const airportOptions: AirportOption[] = [
+  {
+    airport: "John F. Kennedy International Airport",
+    city: "New York",
+    code: "JFK",
+    country: "United States",
+  },
+  {
+    airport: "Los Angeles International Airport",
+    city: "Los Angeles",
+    code: "LAX",
+    country: "United States",
+  },
+  {
+    airport: "Hartsfield-Jackson Atlanta International Airport",
+    city: "Atlanta",
+    code: "ATL",
+    country: "United States",
+  },
+  {
+    airport: "Chicago O'Hare International Airport",
+    city: "Chicago",
+    code: "ORD",
+    country: "United States",
+  },
+  {
+    airport: "Dallas Fort Worth International Airport",
+    city: "Dallas",
+    code: "DFW",
+    country: "United States",
+  },
+  {
+    airport: "San Francisco International Airport",
+    city: "San Francisco",
+    code: "SFO",
+    country: "United States",
+  },
+  {
+    airport: "Miami International Airport",
+    city: "Miami",
+    code: "MIA",
+    country: "United States",
+  },
+  {
+    airport: "Seattle-Tacoma International Airport",
+    city: "Seattle",
+    code: "SEA",
+    country: "United States",
+  },
+  {
+    airport: "Heathrow Airport",
+    city: "London",
+    code: "LHR",
+    country: "United Kingdom",
+  },
+  {
+    airport: "Charles de Gaulle Airport",
+    city: "Paris",
+    code: "CDG",
+    country: "France",
+  },
+  {
+    airport: "Dubai International Airport",
+    city: "Dubai",
+    code: "DXB",
+    country: "United Arab Emirates",
+  },
+  {
+    airport: "Singapore Changi Airport",
+    city: "Singapore",
+    code: "SIN",
+    country: "Singapore",
+  },
+  {
+    airport: "Sydney Kingsford Smith Airport",
+    city: "Sydney",
+    code: "SYD",
+    country: "Australia",
+  },
+  {
+    airport: "Toronto Pearson International Airport",
+    city: "Toronto",
+    code: "YYZ",
+    country: "Canada",
+  },
+  {
+    airport: "Tokyo Haneda Airport",
+    city: "Tokyo",
+    code: "HND",
+    country: "Japan",
+  },
+  {
+    airport: "Doha Hamad International Airport",
+    city: "Doha",
+    code: "DOH",
+    country: "Qatar",
+  },
+];
+
 export default function FlightSearch() {
   const [origin, setOrigin] = useState("");
   const [destination, setDestination] = useState("");
-  const [departureDate, setDepartureDate] = useState("");
+  const [departureDate, setDepartureDate] = useState(() => getTodayDate());
   const [message, setMessage] = useState("");
   const [results, setResults] = useState<FlightResult[]>([]);
   const [isLoading, setIsLoading] = useState(false);
@@ -43,7 +149,7 @@ export default function FlightSearch() {
   function handleClear() {
     setOrigin("");
     setDestination("");
-    setDepartureDate("");
+    setDepartureDate(getTodayDate());
     setMessage("");
     setResults([]);
   }
@@ -58,8 +164,8 @@ export default function FlightSearch() {
       method: "POST",
       headers: { "content-type": "application/json" },
       body: JSON.stringify({
-        origin,
-        destination,
+        origin: getAirportCode(origin),
+        destination: getAirportCode(destination),
         departureDate: departureDate || undefined,
       }),
     });
@@ -99,32 +205,18 @@ export default function FlightSearch() {
 
         <div className="rounded-lg bg-white p-4 text-[#17211f] shadow-xl shadow-black/10 sm:p-7">
           <form className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6" onSubmit={handleSubmit}>
-            <label className="min-w-0 lg:col-span-1">
-              <span className="mb-2 block text-sm font-black">From</span>
-              <input
-                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none placeholder:text-[#17211f]/25 focus:border-[#0d5b57] sm:h-14 sm:px-4"
-                maxLength={3}
-                minLength={3}
-                onChange={(event) => setOrigin(event.target.value.toUpperCase())}
-                placeholder="JFK"
-                required
-                value={origin}
-              />
-            </label>
-            <label className="min-w-0 lg:col-span-1">
-              <span className="mb-2 block text-sm font-black">To</span>
-              <input
-                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-lg font-black uppercase outline-none placeholder:text-[#17211f]/25 focus:border-[#0d5b57] sm:h-14 sm:px-4"
-                maxLength={3}
-                minLength={3}
-                onChange={(event) =>
-                  setDestination(event.target.value.toUpperCase())
-                }
-                placeholder="LHR"
-                required
-                value={destination}
-              />
-            </label>
+            <AirportInput
+              label="From"
+              onChange={setOrigin}
+              placeholder="City or airport code"
+              value={origin}
+            />
+            <AirportInput
+              label="To"
+              onChange={setDestination}
+              placeholder="City or airport code"
+              value={destination}
+            />
             <label className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-2">
               <span className="mb-2 block text-sm font-black">Depart</span>
               <input
@@ -257,6 +349,124 @@ function AirportBlock({
       </p>
     </div>
   );
+}
+
+function AirportInput({
+  label,
+  onChange,
+  placeholder,
+  value,
+}: {
+  label: string;
+  onChange: (value: string) => void;
+  placeholder: string;
+  value: string;
+}) {
+  const [isFocused, setIsFocused] = useState(false);
+  const suggestions = getAirportSuggestions(value);
+
+  return (
+    <div className="relative min-w-0 lg:col-span-1">
+      <span className="mb-2 block text-sm font-black">{label}</span>
+      <input
+        autoComplete="off"
+        className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-sm font-black outline-none placeholder:text-[#17211f]/25 focus:border-[#0d5b57] sm:h-14 sm:px-4"
+        onBlur={() => {
+          window.setTimeout(() => setIsFocused(false), 140);
+        }}
+        onChange={(event) => onChange(event.target.value)}
+        onFocus={() => setIsFocused(true)}
+        placeholder={placeholder}
+        required
+        value={value}
+      />
+      {isFocused && suggestions.length ? (
+        <div className="absolute left-0 right-0 top-full z-20 mt-2 max-h-72 overflow-y-auto rounded-lg border border-[#17211f]/10 bg-white p-2 shadow-xl shadow-[#17211f]/15">
+          {suggestions.map((airport) => (
+            <button
+              className="flex w-full items-center justify-between gap-3 rounded-md px-3 py-3 text-left hover:bg-[#f5f1e8]"
+              key={`${label}-${airport.code}`}
+              onMouseDown={(event) => event.preventDefault()}
+              onClick={() => {
+                onChange(formatAirportSelection(airport));
+                setIsFocused(false);
+              }}
+              type="button"
+            >
+              <span className="min-w-0">
+                <span className="block truncate text-sm font-black text-[#17211f]">
+                  {airport.city}, {airport.country}
+                </span>
+                <span className="mt-1 block truncate text-xs font-bold text-[#56635f]">
+                  {airport.airport}
+                </span>
+              </span>
+              <span className="shrink-0 rounded-md bg-[#0d5b57]/10 px-3 py-2 text-sm font-black text-[#0d5b57]">
+                {airport.code}
+              </span>
+            </button>
+          ))}
+        </div>
+      ) : null}
+    </div>
+  );
+}
+
+function getAirportSuggestions(value: string) {
+  const query = value.trim().toLowerCase();
+
+  if (!query) {
+    return airportOptions.slice(0, 6);
+  }
+
+  return airportOptions
+    .filter((airport) => {
+      return [
+        airport.airport,
+        airport.city,
+        airport.code,
+        airport.country,
+      ].some((field) => field.toLowerCase().includes(query));
+    })
+    .slice(0, 6);
+}
+
+function formatAirportSelection(airport: AirportOption) {
+  return `${airport.city} (${airport.code})`;
+}
+
+function getAirportCode(value: string) {
+  const parenthesizedCode = value.match(/\(([A-Za-z]{3})\)/);
+
+  if (parenthesizedCode?.[1]) {
+    return parenthesizedCode[1].toUpperCase();
+  }
+
+  const directCode = value.trim().match(/^[A-Za-z]{3}$/);
+
+  if (directCode?.[0]) {
+    return directCode[0].toUpperCase();
+  }
+
+  const matchedAirport = airportOptions.find((airport) => {
+    const normalizedValue = value.trim().toLowerCase();
+
+    return (
+      airport.city.toLowerCase() === normalizedValue ||
+      airport.airport.toLowerCase() === normalizedValue
+    );
+  });
+
+  return matchedAirport?.code ?? value.trim().toUpperCase();
+}
+
+function getTodayDate() {
+  const date = new Date();
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, "0");
+  const day = String(date.getDate()).padStart(2, "0");
+
+  return `${year}-${month}-${day}`;
 }
 
 function formatTime(value?: string | null) {

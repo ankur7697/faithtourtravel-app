@@ -34,11 +34,45 @@ const services = [
   "Custom group itineraries",
 ];
 
+const faqs = [
+  {
+    question: "Is FaithTourTravel a travel agency or a booking platform?",
+    answer:
+      "FaithTourTravel provides travel assistance, booking facilitation, and reservation support. We help customers review travel options and coordinate bookings after the itinerary, pricing, and supplier terms are confirmed.",
+  },
+  {
+    question: "Are the package prices final?",
+    answer:
+      "Package prices are starting estimates. Final pricing depends on travel dates, flight availability, hotel category, room type, destination rules, traveler count, and supplier availability.",
+  },
+  {
+    question: "Can I customize a package?",
+    answer:
+      "Yes. Packages can be adjusted for departure city, destination, hotel preference, local transport, sightseeing pace, traveler type, and special occasions.",
+  },
+  {
+    question: "When should I make payment?",
+    answer:
+      "Payment should be made only after your quote, itinerary, invoice, cancellation terms, and refund conditions are confirmed in writing.",
+  },
+  {
+    question: "Do you help with flights only?",
+    answer:
+      "We can assist with flight options, hotels, travel packages, local transport, itinerary planning, and reservation coordination based on your trip details.",
+  },
+  {
+    question: "How do I contact the team after submitting an inquiry?",
+    answer:
+      "You can reach us at info@faithtourtravel.com, +1 (579) 900-5844, or +1 888-333-4391 for follow-up on quotes, package details, or booking assistance.",
+  },
+];
+
 const mobileNavItems = [
   { label: "Destinations", href: "#destinations" },
   { label: "About", href: "/about-us" },
   { label: "Packages", href: "#packages" },
   { label: "Services", href: "#services" },
+  { label: "FAQ", href: "#faq" },
   { label: "Contact", href: "#contact" },
 ];
 
@@ -50,6 +84,7 @@ const footerGroups = [
       { label: "About Us", href: "/about-us" },
       { label: "Packages", href: "#packages" },
       { label: "Services", href: "#services" },
+      { label: "FAQ", href: "#faq" },
     ],
   },
   {
@@ -86,6 +121,7 @@ export default function Home() {
             <Link href="/about-us">About Us</Link>
             <a href="#packages">Packages</a>
             <a href="#services">Services</a>
+            <a href="#faq">FAQ</a>
             <a href="#contact">Contact</a>
           </div>
           <a
@@ -346,6 +382,47 @@ export default function Home() {
                 </div>
               ))}
             </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="faq" className="bg-white px-4 py-16 sm:px-8 sm:py-20 lg:py-28">
+        <div className="mx-auto grid max-w-7xl gap-10 lg:grid-cols-[0.72fr_1fr] lg:items-start">
+          <div className="lg:sticky lg:top-28">
+            <SectionHeading
+              eyebrow="Questions before you book"
+              title="Clear answers for travel planning, payment, and package changes."
+            />
+            <p className="mt-6 max-w-xl text-base leading-8 text-[#42514d]">
+              These answers cover the common questions customers ask before
+              requesting a quote or starting a package booking.
+            </p>
+            <a
+              className="mt-8 inline-block rounded-md bg-[#17211f] px-6 py-4 font-black text-white hover:bg-[#0d5b57]"
+              href="#contact"
+            >
+              Ask a Question
+            </a>
+          </div>
+
+          <div className="space-y-4">
+            {faqs.map((faq, index) => (
+              <details
+                className="group rounded-lg border border-[#17211f]/10 bg-[#fbfaf7] p-5 shadow-sm open:bg-white sm:p-6"
+                key={faq.question}
+                open={index === 0}
+              >
+                <summary className="flex cursor-pointer list-none items-center justify-between gap-5 text-lg font-black text-[#17211f]">
+                  <span>{faq.question}</span>
+                  <span className="grid h-9 w-9 shrink-0 place-items-center rounded-full bg-[#0d5b57]/10 text-xl text-[#0d5b57] transition group-open:rotate-45">
+                    +
+                  </span>
+                </summary>
+                <p className="mt-4 max-w-3xl text-base font-medium leading-8 text-[#42514d]">
+                  {faq.answer}
+                </p>
+              </details>
+            ))}
           </div>
         </div>
       </section>

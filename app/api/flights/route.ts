@@ -113,11 +113,11 @@ export async function POST(request: Request) {
 
 function validateSearch(body: FlightSearchRequest) {
   if (!isIata(body.origin)) {
-    return "Origin must be a 3-letter IATA airport code, for example DEL.";
+    return "Origin must be a 3-letter IATA airport code, for example JFK.";
   }
 
   if (!isIata(body.destination)) {
-    return "Destination must be a 3-letter IATA airport code, for example DXB.";
+    return "Destination must be a 3-letter IATA airport code, for example LHR.";
   }
 
   if (body.departureDate && !isIsoDate(body.departureDate)) {
