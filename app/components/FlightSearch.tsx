@@ -203,7 +203,7 @@ export default function FlightSearch() {
           </p>
         </div>
 
-        <div className="rounded-lg bg-white p-4 text-[#17211f] shadow-xl shadow-black/10 sm:p-7">
+        <div className="relative z-10 rounded-lg bg-white p-4 text-[#17211f] shadow-xl shadow-black/10 sm:p-7">
           <form className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-6" onSubmit={handleSubmit}>
             <AirportInput
               label="From"
@@ -364,15 +364,24 @@ function AirportInput({
 }) {
   const [isFocused, setIsFocused] = useState(false);
   const suggestions = getAirportSuggestions(value);
+  const inputId = `flight-${label.toLowerCase()}-airport`;
+
+  function selectAirport(airport: AirportOption) {
+    onChange(formatAirportSelection(airport));
+    setIsFocused(false);
+  }
 
   return (
-    <div className="relative min-w-0 lg:col-span-1">
-      <span className="mb-2 block text-sm font-black">{label}</span>
+    <div className="block min-w-0 lg:col-span-1">
+      <label className="mb-2 block text-sm font-black" htmlFor={inputId}>
+        {label}
+      </label>
       <input
+        aria-label={label}
         autoComplete="off"
-        className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-base font-black outline-none placeholder:text-[#17211f]/35 focus:border-[#0d5b57] sm:h-14 sm:px-4 sm:text-sm"
+        className="pointer-events-auto h-12 w-full touch-manipulation rounded-md border border-[#17211f]/15 bg-white px-3 text-base font-black outline-none placeholder:text-[#17211f]/35 focus:border-[#0d5b57] focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4 sm:text-sm"
         onBlur={() => {
-          window.setTimeout(() => setIsFocused(false), 220);
+          window.setTimeout(() => setIsFocused(false), 260);
         }}
         onChange={(event) => onChange(event.target.value)}
         onFocus={() => setIsFocused(true)}
@@ -380,23 +389,22 @@ function AirportInput({
         required
         spellCheck={false}
         type="text"
+        id={inputId}
         value={value}
       />
       {isFocused && suggestions.length ? (
-        <div className="absolute left-0 right-0 top-full z-40 mt-2 max-h-72 overflow-y-auto rounded-lg border border-[#17211f]/10 bg-white p-2 shadow-xl shadow-[#17211f]/15">
+        <div className="mt-2 max-h-64 overflow-y-auto rounded-lg border border-[#17211f]/10 bg-white p-2 shadow-lg shadow-[#17211f]/10">
           {suggestions.map((airport) => (
             <button
-              className="flex w-full items-center justify-between gap-3 rounded-md px-3 py-3 text-left hover:bg-[#f5f1e8]"
+              className="flex w-full touch-manipulation items-center justify-between gap-3 rounded-md px-3 py-3 text-left hover:bg-[#f5f1e8]"
               key={`${label}-${airport.code}`}
               onMouseDown={(event) => event.preventDefault()}
               onPointerDown={(event) => {
                 event.preventDefault();
-                onChange(formatAirportSelection(airport));
-                setIsFocused(false);
+                selectAirport(airport);
               }}
               onClick={() => {
-                onChange(formatAirportSelection(airport));
-                setIsFocused(false);
+                selectAirport(airport);
               }}
               type="button"
             >

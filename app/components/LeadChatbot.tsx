@@ -509,9 +509,9 @@ export default function LeadChatbot() {
   }
 
   return (
-    <div className="fixed bottom-4 right-4 z-[80] sm:bottom-6 sm:right-6">
+    <div className="pointer-events-none fixed bottom-4 right-4 z-[80] sm:bottom-6 sm:right-6">
       {!isOpen ? (
-        <div className="mb-3 ml-auto hidden max-w-[255px] rounded-lg border border-[#0d5b57]/12 bg-[#fffaf1]/96 px-4 py-3 text-sm font-bold leading-5 text-[#17211f] shadow-xl shadow-[#17211f]/14 backdrop-blur sm:block">
+        <div className="pointer-events-auto mb-3 ml-auto hidden max-w-[255px] rounded-lg border border-[#0d5b57]/12 bg-[#fffaf1]/96 px-4 py-3 text-sm font-bold leading-5 text-[#17211f] shadow-xl shadow-[#17211f]/14 backdrop-blur sm:block">
           <span className="mb-1 block text-[11px] font-black uppercase text-[#e25d3f]">
             Faith Tour Travel
           </span>
@@ -521,7 +521,7 @@ export default function LeadChatbot() {
       <div
         className={`mb-3 w-[calc(100vw-2rem)] max-w-[370px] origin-bottom-right overflow-hidden rounded-lg border border-[#0d5b57]/14 bg-[#fffaf1] text-[#17211f] shadow-2xl shadow-[#17211f]/22 transition duration-200 sm:w-[370px] ${
           isOpen
-            ? "translate-y-0 scale-100 opacity-100"
+            ? "pointer-events-auto translate-y-0 scale-100 opacity-100"
             : "pointer-events-none translate-y-4 scale-95 opacity-0"
         }`}
       >
@@ -707,7 +707,7 @@ export default function LeadChatbot() {
       <button
         aria-expanded={isOpen}
         aria-label={isOpen ? "Toggle travel chatbot" : "Open travel chatbot"}
-        className="group relative ml-auto flex h-14 items-center gap-2.5 rounded-full bg-[#123f3b] px-4 text-sm font-black text-white shadow-xl shadow-[#17211f]/24 hover:bg-[#0d5b57]"
+        className="pointer-events-auto group relative ml-auto flex h-14 items-center gap-2.5 rounded-full bg-[#123f3b] px-4 text-sm font-black text-white shadow-xl shadow-[#17211f]/24 hover:bg-[#0d5b57]"
         onClick={toggleOpen}
         type="button"
       >
