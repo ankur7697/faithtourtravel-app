@@ -91,6 +91,7 @@ const footerGroups = [
     title: "Support",
     links: [
       { label: "Flight Search", href: "#flights" },
+      { label: "Hotel Search", href: "#flights" },
       { label: "Custom Trips", href: "#contact" },
       { label: "Visa Guidance", href: "#services" },
     ],
@@ -472,7 +473,7 @@ export default function Home() {
                 className="mt-5 inline-block rounded-md bg-[#e25d3f] px-5 py-3 font-black text-white hover:bg-[#c94d34]"
                 href="#flights"
               >
-                Search Flights
+                Search Flights & Hotels
               </a>
             </div>
           </div>
