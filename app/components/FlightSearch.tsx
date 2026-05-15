@@ -351,7 +351,7 @@ export default function FlightSearch() {
         className={`mx-auto grid max-w-7xl gap-6 sm:gap-9 ${
           hasExpandedResults
             ? "lg:grid-cols-1"
-            : "lg:grid-cols-[0.78fr_1.22fr] lg:items-start"
+            : "2xl:grid-cols-[0.72fr_1.28fr] 2xl:items-start"
         }`}
       >
         <div
@@ -373,7 +373,7 @@ export default function FlightSearch() {
           </p>
         </div>
 
-        <div className="relative z-10 overflow-hidden rounded-lg border border-white/70 bg-white p-4 text-[#17211f] shadow-2xl shadow-black/15 sm:p-7">
+        <div className="relative z-10 rounded-lg border border-white/70 bg-white p-4 text-[#17211f] shadow-2xl shadow-black/15 sm:p-7">
           <div className="absolute inset-x-0 top-0 h-1.5 bg-[#e25d3f]" />
           <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
             <div>
@@ -432,14 +432,11 @@ export default function FlightSearch() {
                 value={destination}
               />
               <label className="min-w-0 lg:col-span-2">
-                <span className="mb-2 flex items-center justify-between gap-2 text-sm font-black">
+                <span className="mb-2 block whitespace-nowrap text-sm font-black">
                   Depart
-                  <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
-                    Date
-                  </span>
                 </span>
                 <input
-                  className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
+                  className="h-12 w-full min-w-0 rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-sm font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
                   onChange={(event) => setDepartureDate(event.target.value)}
                   type="date"
                   value={departureDate}
@@ -512,7 +509,7 @@ export default function FlightSearch() {
                 value={hotelRooms}
               />
               <button
-                className="h-12 w-full min-w-0 rounded-md bg-[#e25d3f] px-4 text-center text-base font-black text-white shadow-lg shadow-[#e25d3f]/25 transition hover:-translate-y-0.5 hover:bg-[#c94d34] disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-[#e25d3f]/55 disabled:shadow-none sm:col-span-2 sm:h-14 lg:col-span-12 lg:self-end xl:col-span-3"
+                className="h-11 w-full min-w-0 rounded-md bg-[#e25d3f] px-4 text-center text-sm font-black text-white shadow-lg shadow-[#e25d3f]/25 transition hover:-translate-y-0.5 hover:bg-[#c94d34] disabled:translate-y-0 disabled:cursor-not-allowed sm:col-span-2 sm:h-12 lg:col-span-3 lg:self-end"
                 disabled={isHotelLoading || !selectedHotelPlace}
                 type="submit"
               >
@@ -823,7 +820,7 @@ function HotelDestinationInput({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="relative block min-w-0 sm:col-span-2 lg:col-span-4 xl:col-span-3">
+    <div className="relative block min-w-0 sm:col-span-2 lg:col-span-4">
       <label className="mb-2 flex items-center justify-between gap-2 text-sm font-black" htmlFor="hotel-place">
         Destination
         <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
@@ -898,15 +895,12 @@ function DateInput({
   value: string;
 }) {
   return (
-    <label className="min-w-0 lg:col-span-2">
-      <span className="mb-2 flex items-center justify-between gap-2 text-sm font-black">
-        <span className="whitespace-nowrap">{label}</span>
-        <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
-          Date
-        </span>
+    <label className="min-w-0 lg:col-span-3">
+      <span className="mb-2 block whitespace-nowrap text-sm font-black">
+        {label}
       </span>
       <input
-        className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
+        className="h-12 w-full min-w-0 rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-sm font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
         onChange={(event) => onChange(event.target.value)}
         type="date"
         value={value}
@@ -927,7 +921,7 @@ function NumberInput({
   value: number;
 }) {
   return (
-    <label className="min-w-0 lg:col-span-1">
+    <label className="min-w-0 lg:col-span-2">
       <span className="mb-2 block text-sm font-black">{label}</span>
       <input
         className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
