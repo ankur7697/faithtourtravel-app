@@ -823,28 +823,26 @@ function HotelDestinationInput({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="block min-w-0 sm:col-span-2 lg:col-span-4 xl:col-span-3">
+    <div className="relative block min-w-0 sm:col-span-2 lg:col-span-4 xl:col-span-3">
       <label className="mb-2 flex items-center justify-between gap-2 text-sm font-black" htmlFor="hotel-place">
         Destination
         <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
           City / Hotel
         </span>
       </label>
-      <div className="relative">
-        <input
-          autoComplete="off"
-          className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-black outline-none transition placeholder:text-[#17211f]/35 focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
-          id="hotel-place"
-          onBlur={() => window.setTimeout(() => setIsFocused(false), 220)}
-          onChange={(event) => onChange(event.target.value)}
-          onFocus={() => setIsFocused(true)}
-          placeholder="City, airport, or hotel"
-          type="text"
-          value={value}
-        />
-      </div>
+      <input
+        autoComplete="off"
+        className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-black outline-none transition placeholder:text-[#17211f]/35 focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
+        id="hotel-place"
+        onBlur={() => window.setTimeout(() => setIsFocused(false), 220)}
+        onChange={(event) => onChange(event.target.value)}
+        onFocus={() => setIsFocused(true)}
+        placeholder="City, airport, or hotel"
+        type="text"
+        value={value}
+      />
       {isFocused && value.trim().length >= 2 ? (
-        <div className="mt-2 max-h-64 overflow-y-auto rounded-lg border border-[#17211f]/10 bg-white p-2 shadow-lg shadow-[#17211f]/10">
+        <div className="absolute left-0 right-0 top-[calc(100%+0.5rem)] z-30 max-h-64 overflow-y-auto rounded-lg border border-[#17211f]/10 bg-white p-2 shadow-2xl shadow-[#17211f]/16">
           {isLoading ? (
             <p className="px-3 py-3 text-sm font-bold text-[#56635f]">
               Searching destinations...
@@ -852,7 +850,7 @@ function HotelDestinationInput({
           ) : places.length ? (
             places.map((place) => (
               <button
-                className="flex w-full items-center justify-between gap-3 rounded-md px-3 py-3 text-left hover:bg-[#f5f1e8]"
+                className="flex w-full items-center justify-between gap-3 rounded-md px-3 py-2.5 text-left hover:bg-[#f5f1e8]"
                 key={place.placeId}
                 onMouseDown={(event) => event.preventDefault()}
                 onPointerDown={(event) => {
@@ -870,11 +868,11 @@ function HotelDestinationInput({
                   <span className="block truncate text-sm font-black text-[#17211f]">
                     {place.name}
                   </span>
-                  <span className="mt-1 block truncate text-xs font-bold text-[#56635f]">
+                  <span className="mt-0.5 block truncate text-xs font-bold text-[#56635f]">
                     {place.secondaryText || place.type || "Location"}
                   </span>
                 </span>
-                <span className="shrink-0 rounded-md bg-[#0d5b57]/10 px-3 py-2 text-xs font-black uppercase text-[#0d5b57]">
+                <span className="shrink-0 rounded-md bg-[#0d5b57]/10 px-2.5 py-1.5 text-[11px] font-black uppercase text-[#0d5b57]">
                   {place.type || "place"}
                 </span>
               </button>
