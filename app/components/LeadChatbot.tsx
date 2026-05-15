@@ -347,6 +347,9 @@ export default function LeadChatbot() {
 
   const selectedFlow = leadData.serviceType ? flows[leadData.serviceType] : [];
   const activeStep = selectedFlow[activeStepIndex];
+  const progressPercent = selectedFlow.length
+    ? Math.round((activeStepIndex / selectedFlow.length) * 100)
+    : 0;
   const whatsappUrl = useMemo(() => {
     const digits = whatsappPhoneNumber.replace(/\D/g, "");
     return `https://wa.me/${digits}?text=${encodeURIComponent(whatsappText)}`;
@@ -508,37 +511,50 @@ export default function LeadChatbot() {
   return (
     <div className="fixed bottom-4 right-4 z-[80] sm:bottom-6 sm:right-6">
       {!isOpen ? (
-        <div className="mb-3 ml-auto hidden max-w-[260px] rounded-lg border border-[#17211f]/10 bg-white px-4 py-3 text-sm font-black text-[#17211f] shadow-xl shadow-[#17211f]/16 sm:block">
-          Need help with flights, hotels, visa, or packages?
+        <div className="mb-3 ml-auto hidden max-w-[255px] rounded-lg border border-[#0d5b57]/12 bg-[#fffaf1]/96 px-4 py-3 text-sm font-bold leading-5 text-[#17211f] shadow-xl shadow-[#17211f]/14 backdrop-blur sm:block">
+          <span className="mb-1 block text-[11px] font-black uppercase text-[#e25d3f]">
+            Faith Tour Travel
+          </span>
+          Need help planning your trip?
         </div>
       ) : null}
       <div
-        className={`mb-3 w-[calc(100vw-2rem)] max-w-[390px] origin-bottom-right overflow-hidden rounded-lg border border-[#17211f]/10 bg-white text-[#17211f] shadow-2xl shadow-[#17211f]/24 transition duration-200 sm:w-[390px] ${
+        className={`mb-3 w-[calc(100vw-2rem)] max-w-[370px] origin-bottom-right overflow-hidden rounded-lg border border-[#0d5b57]/14 bg-[#fffaf1] text-[#17211f] shadow-2xl shadow-[#17211f]/22 transition duration-200 sm:w-[370px] ${
           isOpen
             ? "translate-y-0 scale-100 opacity-100"
             : "pointer-events-none translate-y-4 scale-95 opacity-0"
         }`}
       >
-        <div className="relative overflow-hidden bg-[#0d5b57] px-4 py-4 text-white">
-          <div className="absolute inset-x-0 bottom-0 h-20 bg-[#e25d3f]/14" />
+        <div className="relative overflow-hidden bg-[#123f3b] px-4 py-3.5 text-white">
+          <div className="absolute inset-x-0 bottom-0 h-1 bg-[#e25d3f]" />
+          <div className="absolute -right-12 -top-16 h-32 w-32 rounded-full bg-[#f4c35d]/18" />
+          <div className="absolute -bottom-20 left-12 h-32 w-32 rounded-full bg-[#e25d3f]/16" />
           <div className="relative flex items-center justify-between gap-3">
             <div className="flex min-w-0 items-center gap-3">
-              <div className="relative grid h-12 w-12 shrink-0 place-items-center rounded-full bg-white text-lg font-black text-[#0d5b57] shadow-lg">
+              <div className="relative grid h-11 w-11 shrink-0 place-items-center rounded-full bg-[#fffaf1] text-base font-black text-[#0d5b57] shadow-lg ring-2 ring-white/15">
                 FT
-                <span className="absolute bottom-0 right-0 h-3.5 w-3.5 rounded-full border-2 border-[#0d5b57] bg-[#35d07f]" />
+                <span className="absolute bottom-0 right-0 h-3 w-3 rounded-full border-2 border-[#123f3b] bg-[#35d07f]" />
               </div>
               <div className="min-w-0">
-                <p className="text-sm font-black">Faith Tour Support</p>
-                <p className="text-xs font-bold text-white/78">
-                  Online now - replies in seconds
+                <p className="text-sm font-black leading-5">Faith Tour Support</p>
+                <p className="mt-0.5 inline-flex rounded-full bg-white/10 px-2 py-0.5 text-[11px] font-bold text-white/80">
+                  Online now
                 </p>
               </div>
             </div>
+            <button
+              aria-label="Close travel chatbot"
+              className="grid h-8 w-8 shrink-0 place-items-center rounded-full bg-white/12 text-lg font-black leading-none text-white hover:bg-white/22"
+              onClick={() => setIsOpen(false)}
+              type="button"
+            >
+              x
+            </button>
           </div>
         </div>
 
-        <div className="max-h-[55vh] min-h-[320px] overflow-y-auto bg-[#f8f7f2] px-4 py-4 sm:max-h-[520px]">
-          <div className="space-y-3">
+        <div className="max-h-[52vh] min-h-[285px] overflow-y-auto bg-[#f7f1e6] px-3.5 py-4 sm:max-h-[460px]">
+          <div className="space-y-2.5">
             {messages.map((message) => (
               <div
                 className={`flex items-end gap-2 ${
@@ -548,10 +564,10 @@ export default function LeadChatbot() {
               >
                 {message.sender === "bot" ? <AgentAvatar /> : null}
                 <p
-                  className={`max-w-[82%] px-3 py-2 text-sm font-semibold leading-6 shadow-sm ${
+                  className={`max-w-[80%] px-3 py-2 text-[13px] font-semibold leading-5 shadow-sm ${
                     message.sender === "user"
-                      ? "rounded-[18px] rounded-br-md bg-[#e25d3f] text-white"
-                      : "rounded-[18px] rounded-bl-md border border-[#17211f]/7 bg-white text-[#17211f]"
+                      ? "rounded-[16px] rounded-br-md bg-[#e25d3f] text-white shadow-[#e25d3f]/18"
+                      : "rounded-[16px] rounded-bl-md border border-[#0d5b57]/10 bg-[#fffdf8] text-[#17211f]"
                   }`}
                 >
                   {message.text}
@@ -561,10 +577,10 @@ export default function LeadChatbot() {
             {isTyping ? (
               <div className="flex items-end gap-2">
                 <AgentAvatar />
-                <div className="flex items-center gap-1 rounded-[18px] rounded-bl-md border border-[#17211f]/7 bg-white px-4 py-3 shadow-sm">
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-[#0d5b57]" />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-[#0d5b57] [animation-delay:120ms]" />
-                  <span className="h-2 w-2 animate-bounce rounded-full bg-[#0d5b57] [animation-delay:240ms]" />
+                <div className="flex items-center gap-1 rounded-[16px] rounded-bl-md border border-[#0d5b57]/10 bg-[#fffdf8] px-3.5 py-2.5 shadow-sm">
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#e25d3f]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#e25d3f] [animation-delay:120ms]" />
+                  <span className="h-1.5 w-1.5 animate-bounce rounded-full bg-[#e25d3f] [animation-delay:240ms]" />
                 </div>
               </div>
             ) : null}
@@ -572,12 +588,30 @@ export default function LeadChatbot() {
           </div>
         </div>
 
-        <div className="border-t border-[#17211f]/10 bg-white p-4 shadow-[0_-10px_24px_rgba(23,33,31,0.04)]">
+        <div className="border-t border-[#0d5b57]/10 bg-[#fffdf8] p-3.5 shadow-[0_-10px_24px_rgba(23,33,31,0.04)]">
+          {leadData.serviceType && !isComplete ? (
+            <div className="mb-3">
+              <div className="mb-1.5 flex items-center justify-between text-[11px] font-black uppercase text-[#56635f]">
+                <span>{leadData.serviceType}</span>
+                <span>
+                  {Math.min(activeStepIndex + 1, selectedFlow.length)}/
+                  {selectedFlow.length}
+                </span>
+              </div>
+              <div className="h-1.5 overflow-hidden rounded-full bg-[#0d5b57]/10">
+                <div
+                  className="h-full rounded-full bg-[#e25d3f] transition-all duration-300"
+                  style={{ width: `${Math.max(progressPercent, 8)}%` }}
+                />
+              </div>
+            </div>
+          ) : null}
+
           {!leadData.serviceType && !isComplete ? (
             <div className="grid grid-cols-2 gap-2">
               {serviceTypes.map((serviceType) => (
                 <button
-                  className="rounded-md border border-[#0d5b57]/16 bg-[#f8f7f2] px-3 py-2.5 text-left text-sm font-black text-[#0d5b57] shadow-sm hover:border-[#e25d3f] hover:bg-white hover:text-[#e25d3f]"
+                  className="rounded-md border border-[#0d5b57]/14 bg-[#f7f1e6] px-3 py-2.5 text-left text-[13px] font-black text-[#0d5b57] shadow-sm shadow-[#17211f]/4 hover:border-[#e25d3f]/50 hover:bg-white hover:text-[#c94d34]"
                   key={serviceType}
                   onClick={() => selectService(serviceType)}
                   type="button"
@@ -589,12 +623,12 @@ export default function LeadChatbot() {
           ) : null}
 
           {activeStep && !isComplete ? (
-            <form className="space-y-3" onSubmit={handleSubmit}>
+            <form className="space-y-2.5" onSubmit={handleSubmit}>
               {activeStep.choices ? (
                 <div className="flex flex-wrap gap-2">
                   {activeStep.choices.map((choice) => (
                     <button
-                      className="rounded-full bg-[#0d5b57]/10 px-3 py-2 text-xs font-black text-[#0d5b57] hover:bg-[#0d5b57] hover:text-white"
+                      className="rounded-full border border-[#0d5b57]/10 bg-[#f7f1e6] px-3 py-1.5 text-[11px] font-black text-[#0d5b57] hover:border-[#e25d3f]/40 hover:bg-[#e25d3f] hover:text-white"
                       key={choice}
                       onClick={() => setInputValue(choice)}
                       type="button"
@@ -606,12 +640,12 @@ export default function LeadChatbot() {
               ) : null}
 
               <label className="block">
-                <span className="mb-1 block text-xs font-black uppercase text-[#56635f]">
+                <span className="mb-1 block text-[11px] font-black uppercase text-[#56635f]">
                   {activeStep.label}
                   {activeStep.optional ? " (optional)" : ""}
                 </span>
                 <input
-                  className="w-full rounded-md border border-[#17211f]/14 bg-[#fbfaf7] px-3 py-3 text-sm font-semibold outline-none focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12"
+                  className="w-full rounded-md border border-[#0d5b57]/14 bg-[#fffaf1] px-3 py-2.5 text-[13px] font-semibold outline-none placeholder:text-[#56635f]/62 focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12"
                   inputMode={activeStep.type === "number" ? "numeric" : undefined}
                   onChange={(event) => setInputValue(event.target.value)}
                   placeholder={activeStep.placeholder}
@@ -621,7 +655,7 @@ export default function LeadChatbot() {
               </label>
 
               {error ? (
-                <p className="rounded-md bg-[#e25d3f]/10 px-3 py-2 text-sm font-bold text-[#b53e28]">
+                <p className="rounded-md bg-[#e25d3f]/10 px-3 py-2 text-xs font-bold text-[#b53e28]">
                   {error}
                 </p>
               ) : null}
@@ -629,7 +663,7 @@ export default function LeadChatbot() {
               <div className="flex gap-2">
                 {activeStep.optional ? (
                   <button
-                    className="rounded-md border border-[#17211f]/12 px-4 py-3 text-sm font-black text-[#56635f] hover:border-[#0d5b57] hover:text-[#0d5b57]"
+                    className="rounded-md border border-[#0d5b57]/18 bg-white px-4 py-2.5 text-sm font-black text-[#56635f] hover:border-[#0d5b57] hover:text-[#0d5b57]"
                     disabled={isSubmitting}
                     onClick={() => setInputValue("")}
                     type="submit"
@@ -638,7 +672,7 @@ export default function LeadChatbot() {
                   </button>
                 ) : null}
                 <button
-                  className="flex-1 rounded-md bg-[#17211f] px-4 py-3 text-sm font-black text-white shadow-lg shadow-[#17211f]/12 hover:bg-[#0d5b57] disabled:cursor-not-allowed disabled:opacity-60"
+                  className="flex-1 rounded-md bg-[#123f3b] px-4 py-2.5 text-sm font-black text-white shadow-lg shadow-[#123f3b]/18 hover:bg-[#0d5b57] disabled:cursor-not-allowed disabled:opacity-60"
                   disabled={isSubmitting || isTyping}
                   type="submit"
                 >
@@ -651,7 +685,7 @@ export default function LeadChatbot() {
           {isComplete ? (
             <div className="space-y-3">
               <a
-                className="block rounded-md bg-[#18a058] px-4 py-3 text-center text-sm font-black text-white hover:bg-[#128348]"
+                className="block rounded-md bg-[#18a058] px-4 py-2.5 text-center text-sm font-black text-white shadow-lg shadow-[#18a058]/18 hover:bg-[#128348]"
                 href={whatsappUrl}
                 rel="noreferrer"
                 target="_blank"
@@ -659,7 +693,7 @@ export default function LeadChatbot() {
                 Chat on WhatsApp
               </a>
               <button
-                className="w-full rounded-md border border-[#17211f]/12 px-4 py-3 text-sm font-black text-[#0d5b57] hover:border-[#e25d3f] hover:text-[#e25d3f]"
+                className="w-full rounded-md border border-[#0d5b57]/16 bg-white px-4 py-2.5 text-sm font-black text-[#0d5b57] hover:border-[#e25d3f] hover:text-[#e25d3f]"
                 onClick={resetChat}
                 type="button"
               >
@@ -673,12 +707,12 @@ export default function LeadChatbot() {
       <button
         aria-expanded={isOpen}
         aria-label={isOpen ? "Toggle travel chatbot" : "Open travel chatbot"}
-        className="group relative ml-auto flex h-16 items-center gap-3 rounded-full bg-[#e25d3f] px-5 text-sm font-black text-white shadow-xl shadow-[#17211f]/24 hover:bg-[#c94d34]"
+        className="group relative ml-auto flex h-14 items-center gap-2.5 rounded-full bg-[#123f3b] px-4 text-sm font-black text-white shadow-xl shadow-[#17211f]/24 hover:bg-[#0d5b57]"
         onClick={toggleOpen}
         type="button"
       >
-        <span className="absolute inset-0 -z-10 rounded-full bg-[#e25d3f]/35 blur-lg transition group-hover:bg-[#e25d3f]/45" />
-        <span className="grid h-10 w-10 place-items-center rounded-full bg-white text-[#e25d3f] shadow-sm">
+        <span className="absolute inset-0 -z-10 rounded-full bg-[#0d5b57]/35 blur-lg transition group-hover:bg-[#0d5b57]/45" />
+        <span className="grid h-9 w-9 place-items-center rounded-full bg-[#fffaf1] text-[#e25d3f] shadow-sm">
           FT
         </span>
         <span>Travel Help</span>
@@ -689,7 +723,7 @@ export default function LeadChatbot() {
 
 function AgentAvatar() {
   return (
-    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#0d5b57] text-[10px] font-black text-white shadow-sm">
+    <span className="grid h-7 w-7 shrink-0 place-items-center rounded-full bg-[#123f3b] text-[10px] font-black text-[#fffaf1] shadow-sm ring-2 ring-[#fffaf1]">
       FT
     </span>
   );

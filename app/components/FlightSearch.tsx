@@ -204,7 +204,7 @@ export default function FlightSearch() {
         </div>
 
         <div className="rounded-lg bg-white p-4 text-[#17211f] shadow-xl shadow-black/10 sm:p-7">
-          <form className="grid grid-cols-2 gap-3 sm:gap-4 lg:grid-cols-6" onSubmit={handleSubmit}>
+          <form className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-6" onSubmit={handleSubmit}>
             <AirportInput
               label="From"
               onChange={setOrigin}
@@ -217,17 +217,17 @@ export default function FlightSearch() {
               placeholder="City or airport code"
               value={destination}
             />
-            <label className="col-span-2 min-w-0 sm:col-span-1 lg:col-span-2">
+            <label className="min-w-0 lg:col-span-2">
               <span className="mb-2 block text-sm font-black">Depart</span>
               <input
-                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
+                className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-base font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
                 onChange={(event) => setDepartureDate(event.target.value)}
                 type="date"
                 value={departureDate}
               />
             </label>
             <button
-              className="col-span-2 h-12 rounded-md bg-[#e25d3f] px-5 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:col-span-2 lg:self-end"
+              className="h-12 rounded-md bg-[#e25d3f] px-5 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:col-span-2 lg:self-end"
               disabled={isLoading}
               type="submit"
             >
@@ -370,23 +370,30 @@ function AirportInput({
       <span className="mb-2 block text-sm font-black">{label}</span>
       <input
         autoComplete="off"
-        className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-sm font-black outline-none placeholder:text-[#17211f]/25 focus:border-[#0d5b57] sm:h-14 sm:px-4"
+        className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-base font-black outline-none placeholder:text-[#17211f]/35 focus:border-[#0d5b57] sm:h-14 sm:px-4 sm:text-sm"
         onBlur={() => {
-          window.setTimeout(() => setIsFocused(false), 140);
+          window.setTimeout(() => setIsFocused(false), 220);
         }}
         onChange={(event) => onChange(event.target.value)}
         onFocus={() => setIsFocused(true)}
         placeholder={placeholder}
         required
+        spellCheck={false}
+        type="text"
         value={value}
       />
       {isFocused && suggestions.length ? (
-        <div className="absolute left-0 right-0 top-full z-20 mt-2 max-h-72 overflow-y-auto rounded-lg border border-[#17211f]/10 bg-white p-2 shadow-xl shadow-[#17211f]/15">
+        <div className="absolute left-0 right-0 top-full z-40 mt-2 max-h-72 overflow-y-auto rounded-lg border border-[#17211f]/10 bg-white p-2 shadow-xl shadow-[#17211f]/15">
           {suggestions.map((airport) => (
             <button
               className="flex w-full items-center justify-between gap-3 rounded-md px-3 py-3 text-left hover:bg-[#f5f1e8]"
               key={`${label}-${airport.code}`}
               onMouseDown={(event) => event.preventDefault()}
+              onPointerDown={(event) => {
+                event.preventDefault();
+                onChange(formatAirportSelection(airport));
+                setIsFocused(false);
+              }}
               onClick={() => {
                 onChange(formatAirportSelection(airport));
                 setIsFocused(false);
