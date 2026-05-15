@@ -373,16 +373,30 @@ export default function FlightSearch() {
           </p>
         </div>
 
-        <div className="relative z-10 rounded-lg bg-white p-4 text-[#17211f] shadow-xl shadow-black/10 sm:p-7">
+        <div className="relative z-10 overflow-hidden rounded-lg border border-white/70 bg-white p-4 text-[#17211f] shadow-2xl shadow-black/15 sm:p-7">
+          <div className="absolute inset-x-0 top-0 h-1.5 bg-[#e25d3f]" />
+          <div className="mb-5 flex flex-col gap-2 sm:flex-row sm:items-end sm:justify-between">
+            <div>
+              <p className="text-[11px] font-black uppercase tracking-[0.18em] text-[#e25d3f]">
+                Search your trip
+              </p>
+              <p className="mt-1 text-xl font-black text-[#17211f]">
+                Compare live travel options
+              </p>
+            </div>
+            <p className="text-xs font-bold text-[#56635f]">
+              Flights, hotels, dates and guests in one place
+            </p>
+          </div>
           <div
-            className={`mb-5 grid grid-cols-2 rounded-lg bg-[#f5f1e8] p-1 text-sm font-black ${
+            className={`mb-6 grid grid-cols-2 rounded-lg border border-[#17211f]/10 bg-[#f5f1e8] p-1 text-sm font-black shadow-inner shadow-[#17211f]/5 ${
               hasExpandedResults ? "max-w-md" : ""
             }`}
           >
             <button
-              className={`rounded-md px-4 py-3 ${
+              className={`rounded-md px-4 py-3 transition ${
                 mode === "flights"
-                  ? "bg-[#0d5b57] text-white shadow-sm"
+                  ? "bg-[#0d5b57] text-white shadow-md shadow-[#0d5b57]/20"
                   : "text-[#0d5b57] hover:bg-white"
               }`}
               onClick={() => switchMode("flights")}
@@ -391,9 +405,9 @@ export default function FlightSearch() {
               Flights
             </button>
             <button
-              className={`rounded-md px-4 py-3 ${
+              className={`rounded-md px-4 py-3 transition ${
                 mode === "hotels"
-                  ? "bg-[#0d5b57] text-white shadow-sm"
+                  ? "bg-[#0d5b57] text-white shadow-md shadow-[#0d5b57]/20"
                   : "text-[#0d5b57] hover:bg-white"
               }`}
               onClick={() => switchMode("hotels")}
@@ -404,30 +418,35 @@ export default function FlightSearch() {
           </div>
 
           {mode === "flights" ? (
-            <form className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-6" onSubmit={handleSubmit}>
+            <form className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-8" onSubmit={handleSubmit}>
               <AirportInput
                 label="From"
                 onChange={setOrigin}
-                placeholder="City or airport code"
+                placeholder="City or airport, e.g. Delhi or DEL"
                 value={origin}
               />
               <AirportInput
                 label="To"
                 onChange={setDestination}
-                placeholder="City or airport code"
+                placeholder="City or airport, e.g. Dubai or DXB"
                 value={destination}
               />
               <label className="min-w-0 lg:col-span-2">
-                <span className="mb-2 block text-sm font-black">Depart</span>
+                <span className="mb-2 flex items-center justify-between gap-2 text-sm font-black">
+                  Depart
+                  <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
+                    Date
+                  </span>
+                </span>
                 <input
-                  className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-base font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
+                  className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
                   onChange={(event) => setDepartureDate(event.target.value)}
                   type="date"
                   value={departureDate}
                 />
               </label>
               <button
-                className="h-12 rounded-md bg-[#e25d3f] px-5 text-base font-black text-white hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:opacity-65 sm:h-14 sm:text-lg lg:col-span-2 lg:self-end"
+                className="h-12 rounded-md bg-[#e25d3f] px-5 text-base font-black text-white shadow-lg shadow-[#e25d3f]/25 transition hover:-translate-y-0.5 hover:bg-[#c94d34] disabled:cursor-not-allowed disabled:translate-y-0 disabled:opacity-65 sm:h-14 sm:text-lg lg:col-span-2 lg:self-end"
                 disabled={isLoading}
                 type="submit"
               >
@@ -436,11 +455,7 @@ export default function FlightSearch() {
             </form>
           ) : (
             <form
-              className={`grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 ${
-                hasExpandedHotelResults
-                  ? "xl:grid-cols-[1.4fr_0.8fr_0.8fr_0.5fr_0.5fr_auto] xl:items-end"
-                  : "lg:grid-cols-6"
-              }`}
+              className="grid grid-cols-1 gap-3 sm:grid-cols-2 sm:gap-4 lg:grid-cols-12 lg:items-end"
               onSubmit={handleHotelSubmit}
             >
               <HotelDestinationInput
@@ -497,7 +512,7 @@ export default function FlightSearch() {
                 value={hotelRooms}
               />
               <button
-                className="h-12 min-w-[150px] rounded-md bg-[#e25d3f] px-5 text-center text-base font-black text-white shadow-lg shadow-[#e25d3f]/20 transition hover:-translate-y-0.5 hover:bg-[#c94d34] disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-[#e25d3f]/55 disabled:shadow-none sm:h-14 lg:self-end"
+                className="h-12 w-full min-w-0 rounded-md bg-[#e25d3f] px-4 text-center text-base font-black text-white shadow-lg shadow-[#e25d3f]/25 transition hover:-translate-y-0.5 hover:bg-[#c94d34] disabled:translate-y-0 disabled:cursor-not-allowed disabled:bg-[#e25d3f]/55 disabled:shadow-none sm:col-span-2 sm:h-14 lg:col-span-12 lg:self-end xl:col-span-3"
                 disabled={isHotelLoading || !selectedHotelPlace}
                 type="submit"
               >
@@ -734,14 +749,18 @@ function AirportInput({
   }
 
   return (
-    <div className="block min-w-0 lg:col-span-1">
-      <label className="mb-2 block text-sm font-black" htmlFor={inputId}>
+    <div className="block min-w-0 lg:col-span-2">
+      <label className="mb-2 flex items-center justify-between gap-2 text-sm font-black" htmlFor={inputId}>
         {label}
+        <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
+          Airport / City
+        </span>
       </label>
       <input
         aria-label={label}
         autoComplete="off"
-        className="pointer-events-auto h-12 w-full touch-manipulation rounded-md border border-[#17211f]/15 bg-white px-3 text-base font-black outline-none placeholder:text-[#17211f]/35 focus:border-[#0d5b57] focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4 sm:text-sm"
+        className="pointer-events-auto h-12 w-full touch-manipulation rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-black outline-none transition placeholder:text-[#17211f]/35 focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4 sm:text-sm"
+        id={inputId}
         onBlur={() => {
           window.setTimeout(() => setIsFocused(false), 260);
         }}
@@ -751,7 +770,6 @@ function AirportInput({
         required
         spellCheck={false}
         type="text"
-        id={inputId}
         value={value}
       />
       {isFocused && suggestions.length ? (
@@ -805,14 +823,17 @@ function HotelDestinationInput({
   const [isFocused, setIsFocused] = useState(false);
 
   return (
-    <div className="block min-w-0 sm:col-span-2 lg:col-span-2">
-      <label className="mb-2 block text-sm font-black" htmlFor="hotel-place">
+    <div className="block min-w-0 sm:col-span-2 lg:col-span-4 xl:col-span-3">
+      <label className="mb-2 flex items-center justify-between gap-2 text-sm font-black" htmlFor="hotel-place">
         Destination
+        <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
+          City / Hotel
+        </span>
       </label>
       <div className="relative">
         <input
           autoComplete="off"
-          className="h-12 w-full rounded-md border border-[#17211f]/15 bg-white px-3 text-base font-black outline-none placeholder:text-[#17211f]/35 focus:border-[#0d5b57] focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
+          className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-black outline-none transition placeholder:text-[#17211f]/35 focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
           id="hotel-place"
           onBlur={() => window.setTimeout(() => setIsFocused(false), 220)}
           onChange={(event) => onChange(event.target.value)}
@@ -879,10 +900,15 @@ function DateInput({
   value: string;
 }) {
   return (
-    <label className="min-w-0">
-      <span className="mb-2 block text-sm font-black">{label}</span>
+    <label className="min-w-0 lg:col-span-2">
+      <span className="mb-2 flex items-center justify-between gap-2 text-sm font-black">
+        <span className="whitespace-nowrap">{label}</span>
+        <span className="text-[11px] font-bold uppercase tracking-[0.08em] text-[#0d5b57]/70">
+          Date
+        </span>
+      </span>
       <input
-        className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-base font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
+        className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
         onChange={(event) => onChange(event.target.value)}
         type="date"
         value={value}
@@ -903,10 +929,10 @@ function NumberInput({
   value: number;
 }) {
   return (
-    <label className="min-w-0">
+    <label className="min-w-0 lg:col-span-1">
       <span className="mb-2 block text-sm font-black">{label}</span>
       <input
-        className="h-12 w-full rounded-md border border-[#17211f]/15 px-3 text-base font-bold outline-none focus:border-[#0d5b57] sm:h-14 sm:px-4"
+        className="h-12 w-full rounded-md border border-[#17211f]/15 bg-[#fffaf1] px-3 text-base font-bold outline-none transition focus:border-[#0d5b57] focus:bg-white focus:ring-2 focus:ring-[#0d5b57]/12 sm:h-14 sm:px-4"
         min={min}
         onChange={(event) => onChange(Number(event.target.value))}
         type="number"

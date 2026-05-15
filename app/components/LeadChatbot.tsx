@@ -510,14 +510,6 @@ export default function LeadChatbot() {
 
   return (
     <div className="pointer-events-none fixed bottom-4 right-4 z-[80] sm:bottom-6 sm:right-6">
-      {!isOpen ? (
-        <div className="pointer-events-auto mb-3 ml-auto hidden max-w-[255px] rounded-lg border border-[#0d5b57]/12 bg-[#fffaf1]/96 px-4 py-3 text-sm font-bold leading-5 text-[#17211f] shadow-xl shadow-[#17211f]/14 backdrop-blur sm:block">
-          <span className="mb-1 block text-[11px] font-black uppercase text-[#e25d3f]">
-            Faith Tour Travel
-          </span>
-          Need help planning your trip?
-        </div>
-      ) : null}
       <div
         className={`mb-3 w-[calc(100vw-2rem)] max-w-[370px] origin-bottom-right overflow-hidden rounded-lg border border-[#0d5b57]/14 bg-[#fffaf1] text-[#17211f] shadow-2xl shadow-[#17211f]/22 transition duration-200 sm:w-[370px] ${
           isOpen
